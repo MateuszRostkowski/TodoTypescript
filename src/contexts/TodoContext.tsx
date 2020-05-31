@@ -10,7 +10,7 @@ import React, {
 import AsyncStorage from '@react-native-community/async-storage';
 import { Todo } from '../Interfaces';
 
-const TODOS_KEY = 'TODOS_KEY_STORAGE';
+const TODOS_KEY = 'TODOS_KEY';
 
 interface TodoContext {
   todos: Todo[];
@@ -46,27 +46,35 @@ export function TodoProvider(props: Props) {
   }
 
   // TODO: uncomment when app finished
-  // useEffect(() => {
-  //   getItem();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    getItem();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // useEffect(() => {
-  //   if (todos !== null) {
-  //     setItem(todos);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [todos]);
+  useEffect(() => {
+    if (todos !== null) {
+      setItem(todos);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [todos]);
 
-  // const getItem = useCallback(async () => {
-  //   const rawValue = await AsyncStorage.getItem(TODOS_KEY);
-  //   const value = JSON.parse(rawValue) || [];
-  //   setTodos(value);
-  // }, []);
+  const getItem = useCallback(async () => {
+    const rawValue = await AsyncStorage.getItem(TODOS_KEY);
+    const value = JSON.parse(rawValue) || [];
+    const newTodos = value.map((todo: Todo) => {
+      const newTodo = {
+        id: todo.id,
+        name: todo.name,
+        date: new Date(todo.date),
+      };
+      return newTodo;
+    });
+    setTodos(newTodos);
+  }, []);
 
-  // const setItem = useCallback(async (value) => {
-  //   await AsyncStorage.setItem(TODOS_KEY, JSON.stringify(value));
-  // }, []);
+  const setItem = useCallback(async (value) => {
+    await AsyncStorage.setItem(TODOS_KEY, JSON.stringify(value));
+  }, []);
 
   const addItem = (itemName: string) => {
     const newTodo: Todo = {
