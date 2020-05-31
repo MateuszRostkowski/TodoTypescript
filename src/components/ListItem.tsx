@@ -30,10 +30,18 @@ export const ListItem: React.FC<IProps> = ({ item }) => {
       </View>
     );
   }
+  const date = item.date;
+  const itemDate = `${date.getHours()}:${date.getMinutes()} ${date.getDate()}.${
+    date.getUTCMonth() + 1
+  }.${date.getFullYear()} `;
 
   return (
     <View style={styles.todoContainer}>
-      <Text style={styles.heading}>{item.name}</Text>
+      <View style={styles.todoText}>
+        <Text style={styles.heading}>{item.name}</Text>
+        <Text>Data dodania:</Text>
+        <Text>{itemDate}</Text>
+      </View>
       <View style={styles.buttonsContainer}>
         <Button
           style={styles.button}
@@ -59,9 +67,13 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: 'row',
   },
-  heading: {
-    fontSize: 20,
+  todoText: {
     width: '50%',
+  },
+  heading: {
+    marginBottom: 4,
+    fontSize: 20,
+    width: '100%',
   },
   editContainer: {
     justifyContent: 'space-between',
