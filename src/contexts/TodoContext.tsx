@@ -85,10 +85,11 @@ export function TodoProvider(props: Props) {
     const newTodos = todos.map((todo: Todo) => {
       if (todo.id === itemId) {
         return {
-          id: itemId,
+          id: todo.id,
           name: newItemName,
         };
       }
+      return todo;
     });
     setTodos(newTodos);
   };
