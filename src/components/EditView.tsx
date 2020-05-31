@@ -1,10 +1,11 @@
 // EditView.tsx
 import React from 'react';
-import { Text, TextInput, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 
 import { viewState as viewStateType } from '../Interfaces';
 import { useTodos } from '../hooks/useTodos';
 import { Button } from './Button';
+import { Input } from './Input';
 
 interface IProps {
   setViewState: React.Dispatch<React.SetStateAction<viewStateType>>;
@@ -22,7 +23,7 @@ export const EditView: React.FC<IProps> = ({ setViewState }) => {
   return (
     <View style={styles.container}>
       <Text>Add a new Item</Text>
-      <TextInput
+      <Input
         style={styles.textInput}
         value={itemName}
         placeholder="Title"
@@ -35,13 +36,14 @@ export const EditView: React.FC<IProps> = ({ setViewState }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'red',
     width: '100%',
     alignItems: 'center',
   },
   textInput: {
+    backgroundColor: '#ccc',
+
     padding: 15,
-    backgroundColor: '#a1a1a1',
-    width: '80%',
+    marginVertical: 10,
+    width: 200,
   },
 });

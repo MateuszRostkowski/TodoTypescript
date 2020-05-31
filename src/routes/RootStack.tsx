@@ -21,10 +21,10 @@ export const Root = () => {
             <Button title="Add new Item" onPress={handleNewPress} />
           </>
         ) : (
-          <>
+          <View style={styles.editContainer}>
             <EditView setViewState={handleCancelPress} />
             <Button title="Cancel" onPress={handleCancelPress} />
-          </>
+          </View>
         )}
       </View>
     </SafeAreaView>
@@ -32,10 +32,14 @@ export const Root = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
+  editContainer: {
+    height: '100%',
     justifyContent: 'center',
+  },
+  container: {
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });

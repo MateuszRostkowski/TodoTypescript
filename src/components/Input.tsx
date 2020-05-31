@@ -35,7 +35,7 @@ interface Style {
 const styles = StyleSheet.create<Style>({
   textInput: {
     padding: 15,
-    backgroundColor: '#a1a1a1',
+    backgroundColor: 'white',
     width: '80%',
   },
 });
