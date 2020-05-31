@@ -17,6 +17,7 @@ interface TodoContext {
   setTodos: Dispatch<SetStateAction<Todo[]>>;
   addItem: (itemName: string) => void;
   deleteItem: (itemId: string) => void;
+  editItem: (newItemName: string, itemId: string) => void;
 }
 
 export const TodoContext = createContext<TodoContext>({
@@ -24,6 +25,7 @@ export const TodoContext = createContext<TodoContext>({
   setTodos: (_value: React.SetStateAction<Todo[]>) => {},
   addItem: (_itemName: string) => {},
   deleteItem: (_itemId: string) => {},
+  editItem: (_newItemName: string, _itemId: string) => {},
 });
 
 interface Props {
@@ -79,8 +81,21 @@ export function TodoProvider(props: Props) {
     setTodos(newTodos);
   };
 
+  const editItem = (newItemName: string, itemId: string) => {
+    const newTodos = todos.map((todo: Todo) => {
+      if (todo.id === itemId) {
+        return {
+          id: itemId,
+          name: newItemName,
+        };
+      }
+    });
+    setTodos(newTodos);
+  };
+
   return (
-    <TodoContext.Provider value={{ todos, setTodos, addItem, deleteItem }}>
+    <TodoContext.Provider
+      value={{ todos, setTodos, addItem, deleteItem, editItem }}>
       {props.children}
     </TodoContext.Provider>
   );
