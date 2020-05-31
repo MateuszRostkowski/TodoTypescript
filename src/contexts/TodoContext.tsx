@@ -63,8 +63,7 @@ export function TodoProvider(props: Props) {
     const value = JSON.parse(rawValue) || [];
     const newTodos = value.map((todo: Todo) => {
       const newTodo = {
-        id: todo.id,
-        name: todo.name,
+        ...todo,
         date: new Date(todo.date),
       };
       return newTodo;
@@ -95,9 +94,8 @@ export function TodoProvider(props: Props) {
     const newTodos = todos.map((todo: Todo) => {
       if (todo.id === itemId) {
         return {
-          id: todo.id,
+          ...todo,
           name: newItemName,
-          date: todo.date,
         };
       }
       return todo;
