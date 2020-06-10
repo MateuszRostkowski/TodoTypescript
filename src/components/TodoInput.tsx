@@ -21,7 +21,7 @@ export const TodoInput: FC = () => {
         placeholder="Title"
         onChangeText={setItemName}
       />
-      <Button style={styles.addButton} title="Submit" onPress={onSubmit} />
+      <Button style={styles.addButton} title="Add" onPress={onSubmit} />
     </View>
   );
 };
@@ -29,6 +29,8 @@ export const TodoInput: FC = () => {
 const styles = StyleSheet.create({
   addButton: {
     width: '20%',
+    borderRadius: 1000,
+    backgroundColor: '#eee',
   },
   container: {
     width: '100%',
@@ -37,10 +39,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   textInput: {
-    backgroundColor: '#ccc',
-
-    padding: 15,
+    backgroundColor: '#eee',
+    padding: 10,
+    borderRadius: 1000,
     marginVertical: 10,
-    width: 200,
+    width: '70%',
   },
 });
