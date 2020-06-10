@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
 } from 'react-native';
-import { TodoInput, TodosList } from '../components';
+import { TodoInput, TodosList, Controlls } from '../components';
 
 export const Root = () => {
   return (
@@ -13,6 +13,7 @@ export const Root = () => {
       <KeyboardAvoidingView behavior="padding">
         <View style={styles.container}>
           <TodosList />
+          <Controlls />
           <TodoInput />
         </View>
       </KeyboardAvoidingView>
