@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
 import { Todo } from '../Interfaces';
-import { useTodos } from '../hooks/useTodos';
+import { useTodos } from '../hooks';
 import { Button } from './Button';
 import { Input } from './Input';
 import { Checkbox } from './Checkbox';
@@ -104,8 +104,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    borderRadius: 4,
-    backgroundColor: '#ddd',
+    borderRadius: 8,
+    backgroundColor: '#eee',
     margin: 8,
     padding: 8,
   },

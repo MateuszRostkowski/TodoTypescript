@@ -30,17 +30,19 @@ export const TodoInput: FC = () => {
 
 const styles = StyleSheet.create({
   addButton: {
-    width: '20%',
+    width: '30%',
     borderRadius: 1000,
     backgroundColor: '#eee',
+    margin: 0,
   },
   container: {
     width: '100%',
+    paddingHorizontal: '5%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     flexDirection: 'row',
   },
   textInput: {
-    width: '70%',
+    width: '65%',
   },
 });
