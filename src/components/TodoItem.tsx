@@ -11,7 +11,7 @@ interface IProps {
   item: Todo;
 }
 
-export const ListItem: React.FC<IProps> = ({ item }) => {
+export const TodoItem: React.FC<IProps> = ({ item }) => {
   const { deleteItem, editItem } = useTodos();
   const [editMode, setEditMode] = useState(false);
   const [newTitle, setNewTitle] = useState(item.name);
@@ -21,37 +21,46 @@ export const ListItem: React.FC<IProps> = ({ item }) => {
     editItem(newTitle, item.id);
   };
 
+  const handleCancelEdit = () => {
+    setEditMode(!editMode);
+    setNewTitle(item.name);
+  };
+
   if (editMode) {
     return (
-      <View style={styles.editContainer}>
-        <Text>Type new title</Text>
-        <Input value={newTitle} onChangeText={setNewTitle} />
-        <Button style={styles.button} title="Save" onPress={handleEditTodo} />
+      <View style={styles.todoContainer}>
+        <Input
+          style={styles.editInput}
+          value={newTitle}
+          onChangeText={setNewTitle}
+        />
+        <View style={styles.buttonsContainer}>
+          <Button style={styles.button} title="Save" onPress={handleEditTodo} />
+          <Button
+            style={styles.button}
+            title="Cancel"
+            onPress={handleCancelEdit}
+          />
+        </View>
       </View>
     );
   }
-  const date = item.date;
-  const itemDate = `${date.getHours()}:${date.getMinutes()} ${date.getDate()}.${
-    date.getUTCMonth() + 1
-  }.${date.getFullYear()} `;
 
   return (
     <View style={styles.todoContainer}>
       <View style={styles.todoText}>
         <Text style={styles.heading}>{item.name}</Text>
-        <Text>Data dodania:</Text>
-        <Text>{itemDate}</Text>
       </View>
       <View style={styles.buttonsContainer}>
         <Button
           style={styles.button}
-          title="Delete"
-          onPress={() => deleteItem(item.id)}
+          title="Edit"
+          onPress={() => setEditMode(!editMode)}
         />
         <Button
           style={styles.button}
-          title="Edit"
-          onPress={() => setEditMode(!editMode)}
+          title="X"
+          onPress={() => deleteItem(item.id)}
         />
       </View>
     </View>
@@ -59,10 +68,16 @@ export const ListItem: React.FC<IProps> = ({ item }) => {
 };
 
 const styles = StyleSheet.create({
+  editInput: {
+    width: '60%',
+  },
   button: {
-    width: 70,
+    width: 60,
+    padding: 4,
     borderRadius: 2,
+    margin: 0,
     height: 40,
+    backgroundColor: 'transparent',
   },
   buttonsContainer: {
     flexDirection: 'row',
@@ -75,17 +90,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     width: '100%',
   },
-  editContainer: {
-    justifyContent: 'space-between',
-    backgroundColor: '#FF6666',
-    margin: 8,
-    padding: 8,
-  },
   todoContainer: {
+    height: 70,
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: '#dd6677',
+    borderRadius: 4,
+    backgroundColor: '#ddd',
     margin: 8,
     padding: 8,
   },

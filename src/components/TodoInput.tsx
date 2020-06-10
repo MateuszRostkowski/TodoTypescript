@@ -10,6 +10,7 @@ export const TodoInput: FC = () => {
   const { addItem } = useTodos();
 
   const onSubmit = async () => {
+    setItemName('');
     await addItem(itemName);
   };
 
@@ -20,6 +21,7 @@ export const TodoInput: FC = () => {
         value={itemName}
         placeholder="Title"
         onChangeText={setItemName}
+        onSubmitEditing={onSubmit}
       />
       <Button style={styles.addButton} title="Add" onPress={onSubmit} />
     </View>
@@ -39,10 +41,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   textInput: {
-    backgroundColor: '#eee',
-    padding: 10,
-    borderRadius: 1000,
-    marginVertical: 10,
     width: '70%',
   },
 });

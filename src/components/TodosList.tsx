@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, Dimensions } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 
-import { ListItem } from './ListItem';
+import { TodoItem } from './TodoItem';
 import { useTodos } from '../hooks/useTodos';
 
 export const TodosList: React.FC = () => {
@@ -13,7 +13,7 @@ export const TodosList: React.FC = () => {
     <FlatList
       data={todos}
       contentContainerStyle={styles.container}
-      renderItem={({ item }) => <ListItem item={item} />}
+      renderItem={({ item }) => <TodoItem item={item} />}
       keyExtractor={(item) => item.id}
     />
   );

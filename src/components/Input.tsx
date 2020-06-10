@@ -13,6 +13,7 @@ export const Input: FC<Props> = ({
   style,
   placeholder = 'Title',
   onChangeText,
+  ...rest
 }) => {
   const inputStyles = {
     ...styles.textInput,
@@ -24,6 +25,7 @@ export const Input: FC<Props> = ({
       value={value}
       placeholder={placeholder}
       onChangeText={onChangeText}
+      {...rest}
     />
   );
 };
@@ -34,8 +36,10 @@ interface Style {
 
 const styles = StyleSheet.create<Style>({
   textInput: {
-    padding: 15,
-    backgroundColor: 'white',
     width: '80%',
+    backgroundColor: '#eee',
+    padding: 10,
+    borderRadius: 1000,
+    marginVertical: 10,
   },
 });
