@@ -12,6 +12,8 @@ import { Todo } from '../Interfaces';
 
 const TODOS_KEY = 'TODOS_KEY';
 
+type ActiveFilterState = 'all' | 'done' | 'active';
+
 interface TodoContext {
   todos: Todo[];
   setTodos: Dispatch<SetStateAction<Todo[]>>;
@@ -19,6 +21,8 @@ interface TodoContext {
   deleteItem: (itemId: string) => void;
   editItem: (newItemName: string, itemId: string) => void;
   toggleDoneItem: (_itemId: string) => void;
+  activeFilter: ActiveFilterState;
+  setActiveFilter: Dispatch<SetStateAction<ActiveFilterState>>;
 }
 
 export const TodoContext = createContext<TodoContext>({
@@ -28,6 +32,8 @@ export const TodoContext = createContext<TodoContext>({
   deleteItem: (_itemId: string) => {},
   editItem: (_newItemName: string, _itemId: string) => {},
   toggleDoneItem: (_itemId: string) => {},
+  activeFilter: 'all',
+  setActiveFilter: () => {},
 });
 
 interface Props {
@@ -36,6 +42,17 @@ interface Props {
 
 export function TodoProvider(props: Props) {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [activeFilter, setActiveFilter] = useState<ActiveFilterState>('all');
+
+  const todosToDisplay = todos.filter((todo) => {
+    if (activeFilter === 'done') {
+      return todo.done;
+    } else if (activeFilter === 'active') {
+      return !todo.done;
+    } else {
+      return true;
+    }
+  });
 
   function uuidv4() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (
@@ -122,12 +139,14 @@ export function TodoProvider(props: Props) {
   return (
     <TodoContext.Provider
       value={{
-        todos,
+        todos: todosToDisplay,
         setTodos,
         addItem,
         deleteItem,
         editItem,
         toggleDoneItem,
+        activeFilter,
+        setActiveFilter,
       }}>
       {props.children}
     </TodoContext.Provider>
