@@ -10,27 +10,27 @@ import {
 interface ButtonProps {
   title: string;
   style?: ViewStyle;
+  textStyle: TextStyle;
   onPress: () => void;
 }
 
-export const Button: FC<ButtonProps> = ({ title, style, onPress, ...rest }) => {
-  const buttonStyles = {
-    ...styles.button,
-    ...style,
-  };
+export const Button: FC<ButtonProps> = ({
+  title,
+  style,
+  textStyle,
+  onPress,
+  ...rest
+}) => {
+  const buttonStyles = [...[styles.button], ...[style]];
+  const textStyles = [...[styles.title], ...[textStyle]];
   return (
     <TouchableOpacity style={buttonStyles} onPress={onPress} {...rest}>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={textStyles}>{title}</Text>
     </TouchableOpacity>
   );
 };
 
-interface Style {
-  button: ViewStyle;
-  title: TextStyle;
-}
-
-const styles = StyleSheet.create<Style>({
+const styles = StyleSheet.create({
   button: {
     borderRadius: 4,
     margin: 5,
