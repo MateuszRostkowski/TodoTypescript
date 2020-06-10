@@ -1,13 +1,12 @@
-// DefaultView.tsx
 import React from 'react';
-import { Text, FlatList, StyleSheet, Dimensions } from 'react-native';
+import { FlatList, StyleSheet, Dimensions } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 
 import { ListItem } from './ListItem';
 import { useTodos } from '../hooks/useTodos';
 
-export const DefaultView: React.FC = () => {
+export const TodosList: React.FC = () => {
   const { todos } = useTodos();
 
   return (

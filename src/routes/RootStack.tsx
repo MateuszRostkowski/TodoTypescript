@@ -1,32 +1,21 @@
-// App.tsx
 import React from 'react';
-import { StyleSheet, View, SafeAreaView } from 'react-native';
-import { viewState as viewStateType } from '../Interfaces';
-import { DefaultView } from '../components/DefaultView';
-import { EditView } from '../components/EditView';
-import { Button } from '../components';
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  KeyboardAvoidingView,
+} from 'react-native';
+import { TodoInput, TodosList } from '../components';
 
 export const Root = () => {
-  const [viewState, setViewState] = React.useState<viewStateType>('default');
-
-  const handleNewPress = () => setViewState('edit');
-  const handleCancelPress = () => setViewState('default');
-
   return (
     <SafeAreaView>
-      <View style={styles.container}>
-        {viewState === 'default' ? (
-          <>
-            <DefaultView />
-            <Button title="Add new Item" onPress={handleNewPress} />
-          </>
-        ) : (
-          <View style={styles.editContainer}>
-            <EditView setViewState={handleCancelPress} />
-            <Button title="Cancel" onPress={handleCancelPress} />
-          </View>
-        )}
-      </View>
+      <KeyboardAvoidingView behavior="padding">
+        <View style={styles.container}>
+          <TodosList />
+          <TodoInput />
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

@@ -1,10 +1,6 @@
 import React, { FC } from 'react';
+import { View } from 'react-native';
 
-interface Props {
-  name: string;
-  enthusiasmLevel?: number;
-}
-
-export const Box: FC<Props> = (props) => {
-  return null;
+export const Box: FC = ({ children, ...rest }) => {
+  return <View {...rest}>{children}</View>;
 };
