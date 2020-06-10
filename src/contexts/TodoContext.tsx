@@ -18,6 +18,7 @@ interface TodoContext {
   addItem: (itemName: string) => void;
   deleteItem: (itemId: string) => void;
   editItem: (newItemName: string, itemId: string) => void;
+  toggleDoneItem: (_itemId: string) => void;
 }
 
 export const TodoContext = createContext<TodoContext>({
@@ -26,6 +27,7 @@ export const TodoContext = createContext<TodoContext>({
   addItem: (_itemName: string) => {},
   deleteItem: (_itemId: string) => {},
   editItem: (_newItemName: string, _itemId: string) => {},
+  toggleDoneItem: (_itemId: string) => {},
 });
 
 interface Props {
@@ -80,6 +82,7 @@ export function TodoProvider(props: Props) {
       id: uuidv4(),
       name: itemName,
       date: new Date(),
+      done: false,
     };
     const newTodos = [newTodo, ...todos];
     setTodos(newTodos);
@@ -87,6 +90,19 @@ export function TodoProvider(props: Props) {
 
   const deleteItem = (itemId: string) => {
     const newTodos = todos.filter((todo: Todo) => todo.id !== itemId);
+    setTodos(newTodos);
+  };
+
+  const toggleDoneItem = (itemId: string) => {
+    const newTodos = todos.map((todo: Todo) => {
+      if (todo.id === itemId) {
+        return {
+          ...todo,
+          done: !todo.done,
+        };
+      }
+      return todo;
+    });
     setTodos(newTodos);
   };
 
@@ -105,7 +121,14 @@ export function TodoProvider(props: Props) {
 
   return (
     <TodoContext.Provider
-      value={{ todos, setTodos, addItem, deleteItem, editItem }}>
+      value={{
+        todos,
+        setTodos,
+        addItem,
+        deleteItem,
+        editItem,
+        toggleDoneItem,
+      }}>
       {props.children}
     </TodoContext.Provider>
   );

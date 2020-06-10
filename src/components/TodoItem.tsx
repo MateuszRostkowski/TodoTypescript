@@ -1,4 +1,3 @@
-// ListItem.tsx
 import React, { useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
@@ -6,15 +5,18 @@ import { Todo } from '../Interfaces';
 import { useTodos } from '../hooks/useTodos';
 import { Button } from './Button';
 import { Input } from './Input';
+import { Checkbox } from './Checkbox';
 
 interface IProps {
   item: Todo;
 }
 
 export const TodoItem: React.FC<IProps> = ({ item }) => {
-  const { deleteItem, editItem } = useTodos();
+  const { deleteItem, editItem, toggleDoneItem } = useTodos();
   const [editMode, setEditMode] = useState(false);
   const [newTitle, setNewTitle] = useState(item.name);
+
+  const doneTextStyle = item.done ? [styles.doneTextStyle] : [];
 
   const handleEditTodo = () => {
     setEditMode(!editMode);
@@ -48,8 +50,12 @@ export const TodoItem: React.FC<IProps> = ({ item }) => {
 
   return (
     <View style={styles.todoContainer}>
+      <Checkbox
+        value={item.done}
+        onValueChange={() => toggleDoneItem(item.id)}
+      />
       <View style={styles.todoText}>
-        <Text style={styles.heading}>{item.name}</Text>
+        <Text style={[styles.heading, ...doneTextStyle]}>{item.name}</Text>
       </View>
       <View style={styles.buttonsContainer}>
         <Button
@@ -68,6 +74,9 @@ export const TodoItem: React.FC<IProps> = ({ item }) => {
 };
 
 const styles = StyleSheet.create({
+  doneTextStyle: {
+    textDecorationLine: 'line-through',
+  },
   editInput: {
     width: '60%',
   },
