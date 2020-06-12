@@ -10,8 +10,10 @@ export const TodoInput: FC = () => {
   const { addItem } = useTodos();
 
   const onSubmit = async () => {
-    setItemName('');
-    await addItem(itemName);
+    if (itemName) {
+      setItemName('');
+      await addItem(itemName);
+    }
   };
 
   return (
@@ -23,18 +25,12 @@ export const TodoInput: FC = () => {
         onChangeText={setItemName}
         onSubmitEditing={onSubmit}
       />
-      <Button style={styles.addButton} title="Add" onPress={onSubmit} />
+      <Button title="Add" onPress={onSubmit} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  addButton: {
-    width: '30%',
-    borderRadius: 1000,
-    backgroundColor: '#eee',
-    margin: 0,
-  },
   container: {
     width: '100%',
     paddingHorizontal: '5%',
