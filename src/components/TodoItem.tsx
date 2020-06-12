@@ -35,14 +35,11 @@ export const TodoItem: React.FC<IProps> = ({ item }) => {
           style={styles.editInput}
           value={newTitle}
           onChangeText={setNewTitle}
+          onSubmitEditing={handleEditTodo}
         />
         <View style={styles.buttonsContainer}>
-          <Button style={styles.button} title="Save" onPress={handleEditTodo} />
-          <Button
-            style={styles.button}
-            title="Cancel"
-            onPress={handleCancelEdit}
-          />
+          <Button type="tertiary" title="Save" onPress={handleEditTodo} />
+          <Button type="tertiary" title="Cancel" onPress={handleCancelEdit} />
         </View>
       </View>
     );
@@ -54,20 +51,14 @@ export const TodoItem: React.FC<IProps> = ({ item }) => {
         value={item.done}
         onValueChange={() => toggleDoneItem(item.id)}
       />
-      <View style={styles.todoText}>
-        <Text style={[styles.heading, ...doneTextStyle]}>{item.name}</Text>
-      </View>
+      <Text style={[styles.heading, ...doneTextStyle]}>{item.name}</Text>
       <View style={styles.buttonsContainer}>
         <Button
-          style={styles.button}
+          type="tertiary"
           title="Edit"
           onPress={() => setEditMode(!editMode)}
         />
-        <Button
-          style={styles.button}
-          title="X"
-          onPress={() => deleteItem(item.id)}
-        />
+        <Button type="tertiary" title="X" onPress={() => deleteItem(item.id)} />
       </View>
     </View>
   );
@@ -79,25 +70,16 @@ const styles = StyleSheet.create({
   },
   editInput: {
     width: '60%',
-  },
-  button: {
-    width: 60,
-    padding: 4,
-    borderRadius: 2,
-    margin: 0,
-    height: 40,
-    backgroundColor: 'transparent',
+    backgroundColor: '#fff',
   },
   buttonsContainer: {
     flexDirection: 'row',
   },
-  todoText: {
-    width: '50%',
-  },
   heading: {
     marginBottom: 4,
     fontSize: 20,
-    width: '100%',
+    maxWidth: 400,
+    width: '65%',
   },
   todoContainer: {
     height: 70,

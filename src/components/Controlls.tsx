@@ -3,7 +3,8 @@ import { StyleSheet, View } from 'react-native';
 import { useTodos } from '../hooks';
 import { Button } from './Button';
 
-const modes = ['all', 'active', 'done'];
+type mode = 'all' | 'active' | 'done';
+const modes: mode[] = ['all', 'active', 'done'];
 
 export const Controlls: React.FC = () => {
   const { activeFilter, setActiveFilter } = useTodos();
@@ -11,11 +12,10 @@ export const Controlls: React.FC = () => {
   const renderButtons = () => {
     return modes.map((mode) => {
       const isActive = activeFilter === mode;
-      const activeButton = isActive ? [styles.activeButton] : [];
       const activeButtonText = isActive ? [styles.activeButtonText] : [];
       return (
         <Button
-          style={[styles.addButton, ...activeButton]}
+          type={isActive ? 'primary' : 'secondary'}
           textStyle={activeButtonText}
           title={mode.toLocaleUpperCase()}
           onPress={() => setActiveFilter(mode)}
@@ -28,17 +28,8 @@ export const Controlls: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  activeButton: {
-    backgroundColor: '#06f',
-  },
   activeButtonText: {
     color: 'white',
-  },
-  addButton: {
-    width: '30%',
-    borderRadius: 1000,
-    backgroundColor: '#eee',
-    margin: 0,
   },
   container: {
     width: '100%',

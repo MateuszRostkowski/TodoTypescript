@@ -1,30 +1,28 @@
 import React, { FC } from 'react';
-import {
-  TouchableOpacity,
-  Text,
-  ViewStyle,
-  StyleSheet,
-  TextStyle,
-} from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, TextStyle } from 'react-native';
 
 interface ButtonProps {
+  type?: 'primary' | 'secondary' | 'tertiary';
   title: string;
-  style?: ViewStyle;
-  textStyle: TextStyle;
+  textStyle?: TextStyle;
   onPress: () => void;
 }
 
 export const Button: FC<ButtonProps> = ({
+  type = 'secondary',
   title,
-  style,
   textStyle,
   onPress,
   ...rest
 }) => {
-  const buttonStyles = [...[styles.button], ...[style]];
+  const primaryStyles = type === 'primary' ? [styles.primaryButton] : [];
+  const tertiaryStyles = type === 'tertiary' ? [styles.tertiaryButton] : [];
   const textStyles = [...[styles.title], ...[textStyle]];
   return (
-    <TouchableOpacity style={buttonStyles} onPress={onPress} {...rest}>
+    <TouchableOpacity
+      style={[styles.button, ...primaryStyles, ...tertiaryStyles]}
+      onPress={onPress}
+      {...rest}>
       <Text style={textStyles}>{title}</Text>
     </TouchableOpacity>
   );
@@ -32,13 +30,19 @@ export const Button: FC<ButtonProps> = ({
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 4,
-    margin: 5,
     padding: 10,
-    width: 200,
-    backgroundColor: '#ccff66',
+    borderRadius: 1000,
+    width: '30%',
+    backgroundColor: '#eee',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  primaryButton: {
+    backgroundColor: '#06f',
+  },
+  tertiaryButton: {
+    color: 'transparent',
+    width: 'auto',
   },
   title: {
     fontSize: 14,
