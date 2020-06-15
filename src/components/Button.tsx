@@ -4,16 +4,13 @@ import { TouchableOpacity, Text, StyleSheet, TextStyle } from 'react-native';
 interface ButtonProps {
   type?: 'primary' | 'secondary' | 'tertiary';
   title: string;
-  textStyle?: TextStyle;
   onPress: () => void;
 }
 
 export const Button: FC<ButtonProps> = ({
   type = 'secondary',
   title,
-  textStyle,
   onPress,
-  ...rest
 }) => {
   const primaryStyles = type === 'primary' ? [styles.primaryButton] : [];
   const tertiaryStyles = type === 'tertiary' ? [styles.tertiaryButton] : [];
@@ -21,8 +18,7 @@ export const Button: FC<ButtonProps> = ({
   return (
     <TouchableOpacity
       style={[styles.button, ...primaryStyles, ...tertiaryStyles]}
-      onPress={onPress}
-      {...rest}>
+      onPress={onPress}>
       <Text style={[styles.title, ...primaryTextStyles]}>{title}</Text>
     </TouchableOpacity>
   );
