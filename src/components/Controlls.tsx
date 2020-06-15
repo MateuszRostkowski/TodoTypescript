@@ -9,29 +9,48 @@ const modes: mode[] = ['all', 'active', 'done'];
 export const Controlls: React.FC = () => {
   const { activeFilter, setActiveFilter } = useTodos();
 
-  const renderButtons = () => {
-    return modes.map((mode) => {
+  const renderFilterButtons = () => {
+    return modes.map((mode, index) => {
       const isActive = activeFilter === mode;
       const activeButtonText = isActive ? [styles.activeButtonText] : [];
+      const [first, ...rest] = mode;
       return (
         <Button
+          key={index}
           type={isActive ? 'primary' : 'secondary'}
           textStyle={activeButtonText}
-          title={mode.toLocaleUpperCase()}
+          title={`${first.toLocaleUpperCase()}${rest.join('')}`}
           onPress={() => setActiveFilter(mode)}
         />
       );
     });
   };
 
-  return <View style={styles.container}>{renderButtons()}</View>;
+  const renderControllsButtons = () => (
+    <>
+      <Button title="Toggle all" onPress={() => {}} />
+      <Button title="Delete done" onPress={() => {}} />
+    </>
+  );
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.buttonsContainer}>{renderControllsButtons()}</View>
+      <View style={styles.buttonsContainer}>{renderFilterButtons()}</View>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    marginTop: 10,
+  },
   activeButtonText: {
     color: 'white',
   },
-  container: {
+  buttonsContainer: {
+    marginVertical: 5,
     width: '100%',
     paddingHorizontal: '5%',
     alignItems: 'center',
