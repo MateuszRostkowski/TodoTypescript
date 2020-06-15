@@ -15,29 +15,31 @@ const TODOS_KEY = 'TODOS_KEY';
 type ActiveFilterState = 'all' | 'done' | 'active';
 
 interface TodoContext {
-  todos: Todo[];
-  setTodos: Dispatch<SetStateAction<Todo[]>>;
+  activeFilter: ActiveFilterState;
   addItem: (itemName: string) => void;
+  deleteDone: () => void;
   deleteItem: (itemId: string) => void;
   editItem: (newItemName: string, itemId: string) => void;
-  toggleDoneItem: (_itemId: string) => void;
-  toggleAllTodos: () => void;
   isAllDone: boolean;
-  activeFilter: ActiveFilterState;
   setActiveFilter: Dispatch<SetStateAction<ActiveFilterState>>;
+  setTodos: Dispatch<SetStateAction<Todo[]>>;
+  todos: Todo[];
+  toggleAllTodos: () => void;
+  toggleDoneItem: (_itemId: string) => void;
 }
 
 export const TodoContext = createContext<TodoContext>({
-  todos: [],
-  setTodos: (_value: React.SetStateAction<Todo[]>) => {},
+  activeFilter: 'all',
   addItem: (_itemName: string) => {},
+  deleteDone: () => {},
   deleteItem: (_itemId: string) => {},
   editItem: (_newItemName: string, _itemId: string) => {},
-  toggleDoneItem: (_itemId: string) => {},
-  activeFilter: 'all',
-  setActiveFilter: () => {},
   isAllDone: false,
+  setActiveFilter: () => {},
+  setTodos: (_value: React.SetStateAction<Todo[]>) => {},
+  todos: [],
   toggleAllTodos: () => {},
+  toggleDoneItem: (_itemId: string) => {},
 });
 
 interface Props {
@@ -69,7 +71,8 @@ export function TodoProvider(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [todos]);
 
-  const isAllDone = todos.every((todo) => todo.done);
+  const isAllDone =
+    todos.length === 0 ? false : todos.every((todo) => todo.done);
 
   const todosToDisplay = todos.filter((todo) => {
     if (activeFilter === 'done') {
@@ -150,19 +153,28 @@ export function TodoProvider(props: Props) {
     setTodos(newTodos);
   };
 
+  const deleteDone = () => {
+    const newTodos = todos.filter((todo) => {
+      return !todo.done;
+    });
+
+    setTodos(newTodos);
+  };
+
   return (
     <TodoContext.Provider
       value={{
-        todos: todosToDisplay,
-        setTodos,
+        activeFilter,
         addItem,
+        deleteDone,
         deleteItem,
         editItem,
-        toggleDoneItem,
-        activeFilter,
-        setActiveFilter,
         isAllDone,
+        setActiveFilter,
+        setTodos,
+        todos: todosToDisplay,
         toggleAllTodos,
+        toggleDoneItem,
       }}>
       {props.children}
     </TodoContext.Provider>

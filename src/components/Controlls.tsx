@@ -12,6 +12,7 @@ export const Controlls: React.FC = () => {
     setActiveFilter,
     toggleAllTodos,
     isAllDone,
+    deleteDone,
   } = useTodos();
 
   const renderFilterButtons = () => {
@@ -38,7 +39,7 @@ export const Controlls: React.FC = () => {
           toggleAllTodos();
         }}
       />
-      <Button title="Delete done" onPress={() => {}} />
+      <Button title="Delete done" onPress={() => deleteDone()} />
     </>
   );
 
