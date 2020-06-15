@@ -7,7 +7,7 @@ type mode = 'all' | 'active' | 'done';
 const modes: mode[] = ['all', 'active', 'done'];
 
 export const Controlls: React.FC = () => {
-  const { activeFilter, setActiveFilter } = useTodos();
+  const { activeFilter, setActiveFilter, toggleAllTodos } = useTodos();
 
   const renderFilterButtons = () => {
     return modes.map((mode, index) => {
@@ -28,7 +28,12 @@ export const Controlls: React.FC = () => {
 
   const renderControllsButtons = () => (
     <>
-      <Button title="Toggle all" onPress={() => {}} />
+      <Button
+        title="Toggle all"
+        onPress={() => {
+          toggleAllTodos();
+        }}
+      />
       <Button title="Delete done" onPress={() => {}} />
     </>
   );
