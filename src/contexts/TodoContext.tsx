@@ -22,6 +22,7 @@ interface TodoContext {
   editItem: (newItemName: string, itemId: string) => void;
   toggleDoneItem: (_itemId: string) => void;
   toggleAllTodos: () => void;
+  isAllDone: boolean;
   activeFilter: ActiveFilterState;
   setActiveFilter: Dispatch<SetStateAction<ActiveFilterState>>;
 }
@@ -35,6 +36,7 @@ export const TodoContext = createContext<TodoContext>({
   toggleDoneItem: (_itemId: string) => {},
   activeFilter: 'all',
   setActiveFilter: () => {},
+  isAllDone: false,
   toggleAllTodos: () => {},
 });
 
@@ -159,6 +161,7 @@ export function TodoProvider(props: Props) {
         toggleDoneItem,
         activeFilter,
         setActiveFilter,
+        isAllDone,
         toggleAllTodos,
       }}>
       {props.children}

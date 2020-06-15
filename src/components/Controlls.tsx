@@ -7,18 +7,21 @@ type mode = 'all' | 'active' | 'done';
 const modes: mode[] = ['all', 'active', 'done'];
 
 export const Controlls: React.FC = () => {
-  const { activeFilter, setActiveFilter, toggleAllTodos } = useTodos();
+  const {
+    activeFilter,
+    setActiveFilter,
+    toggleAllTodos,
+    isAllDone,
+  } = useTodos();
 
   const renderFilterButtons = () => {
     return modes.map((mode, index) => {
       const isActive = activeFilter === mode;
-      const activeButtonText = isActive ? [styles.activeButtonText] : [];
       const [first, ...rest] = mode;
       return (
         <Button
           key={index}
           type={isActive ? 'primary' : 'secondary'}
-          textStyle={activeButtonText}
           title={`${first.toLocaleUpperCase()}${rest.join('')}`}
           onPress={() => setActiveFilter(mode)}
         />
@@ -30,6 +33,7 @@ export const Controlls: React.FC = () => {
     <>
       <Button
         title="Toggle all"
+        type={isAllDone ? 'primary' : 'secondary'}
         onPress={() => {
           toggleAllTodos();
         }}
@@ -50,9 +54,6 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     marginTop: 10,
-  },
-  activeButtonText: {
-    color: 'white',
   },
   buttonsContainer: {
     marginVertical: 5,
