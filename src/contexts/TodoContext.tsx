@@ -42,29 +42,17 @@ interface Props {
   children?: ReactNode;
 }
 
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    var r = (Math.random() * 16) | 0,
+      v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 export function TodoProvider(props: Props) {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [activeFilter, setActiveFilter] = useState<ActiveFilterState>('all');
-
-  const todosToDisplay = todos.filter((todo) => {
-    if (activeFilter === 'done') {
-      return todo.done;
-    } else if (activeFilter === 'active') {
-      return !todo.done;
-    } else {
-      return true;
-    }
-  });
-
-  function uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (
-      c,
-    ) {
-      var r = (Math.random() * 16) | 0,
-        v = c === 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
-  }
 
   // TODO: uncomment when app finished
   useEffect(() => {
@@ -79,8 +67,20 @@ export function TodoProvider(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [todos]);
 
+  const isAllDone = todos.every((todo) => todo.done);
+
+  const todosToDisplay = todos.filter((todo) => {
+    if (activeFilter === 'done') {
+      return todo.done;
+    } else if (activeFilter === 'active') {
+      return !todo.done;
+    } else {
+      return true;
+    }
+  });
+
   const getItem = useCallback(async () => {
-    const rawValue = await AsyncStorage.getItem(TODOS_KEY);
+    const rawValue = (await AsyncStorage.getItem(TODOS_KEY)) || '';
     const value = JSON.parse(rawValue) || [];
     const newTodos = value.map((todo: Todo) => {
       const newTodo = {
@@ -139,11 +139,10 @@ export function TodoProvider(props: Props) {
   };
 
   const toggleAllTodos = () => {
-    const isDone = todos.every((todo) => todo.done);
     const newTodos = todos.map((todo) => {
       return {
         ...todo,
-        done: !isDone,
+        done: !isAllDone,
       };
     });
     setTodos(newTodos);
