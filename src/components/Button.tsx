@@ -17,13 +17,13 @@ export const Button: FC<ButtonProps> = ({
 }) => {
   const primaryStyles = type === 'primary' ? [styles.primaryButton] : [];
   const tertiaryStyles = type === 'tertiary' ? [styles.tertiaryButton] : [];
-  const textStyles = [...[styles.title], ...[textStyle]];
+  const primaryTextStyles = type === 'primary' ? [styles.primaryText] : [];
   return (
     <TouchableOpacity
       style={[styles.button, ...primaryStyles, ...tertiaryStyles]}
       onPress={onPress}
       {...rest}>
-      <Text style={textStyles}>{title}</Text>
+      <Text style={[styles.title, ...primaryTextStyles]}>{title}</Text>
     </TouchableOpacity>
   );
 };
@@ -39,6 +39,9 @@ const styles = StyleSheet.create({
   },
   primaryButton: {
     backgroundColor: '#06f',
+  },
+  primaryText: {
+    color: 'white',
   },
   tertiaryButton: {
     color: 'transparent',
