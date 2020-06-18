@@ -23,15 +23,19 @@ export const Auth = () => {
       // eslint-disable-next-line no-shadow
     } catch (error) {
       setError(error.message);
-    } finally {
       setLoading(false);
     }
   };
 
   const submitRegister = async () => {
     setLoading(true);
-    await registerUser(login, password);
-    setLoading(false);
+    try {
+      await registerUser(login, password);
+      // eslint-disable-next-line no-shadow
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
   };
 
   return (
@@ -41,7 +45,7 @@ export const Auth = () => {
         <Text style={styles.error}>{error}</Text>
         <View style={styles.separator} />
         <Input value={login} onChangeText={setLogin} />
-        <Input value={password} onChangeText={setPassword} type="password" />
+        <Input value={password} onChangeText={setPassword} />
         <View style={styles.separator} />
         <Button
           loading={loading}
