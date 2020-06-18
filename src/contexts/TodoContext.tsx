@@ -74,15 +74,19 @@ export function TodoProvider(props: Props) {
   const isAllDone =
     todos.length === 0 ? false : todos.every((todo) => todo.done);
 
-  const todosToDisplay = todos.filter((todo) => {
-    if (activeFilter === 'done') {
-      return todo.done;
-    } else if (activeFilter === 'active') {
-      return !todo.done;
-    } else {
-      return true;
-    }
-  });
+  const todosToDisplay = todos
+    .sort((a, b) => {
+      return b.date.toDate() - a.date.toDate();
+    })
+    .filter((todo) => {
+      if (activeFilter === 'done') {
+        return todo.done;
+      } else if (activeFilter === 'active') {
+        return !todo.done;
+      } else {
+        return true;
+      }
+    });
 
   const todoRef = (itemId: string) => todosRef.doc(itemId);
 
