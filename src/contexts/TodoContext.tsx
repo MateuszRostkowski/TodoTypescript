@@ -81,6 +81,8 @@ export function TodoProvider(props: Props) {
     }
   });
 
+  const todoRef = (itemId: string) => todosRef.doc(itemId);
+
   const addItem = async (itemName: string) => {
     const newTodo = {
       name: itemName,
@@ -91,30 +93,27 @@ export function TodoProvider(props: Props) {
   };
 
   const deleteItem = async (itemId: string) => {
-    await todosRef.doc(itemId).delete();
+    await todoRef(itemId).delete();
   };
 
   const toggleDoneItem = async (itemId: string) => {
     const todoDone = todos.find((todo) => todo.id === itemId)?.done || false;
-    await todosRef.doc(itemId).update({ done: !todoDone });
+    await todoRef(itemId).update({ done: !todoDone });
   };
 
   const editItem = async (newItemName: string, itemId: string) => {
-    await todosRef.doc(itemId).update({ name: newItemName });
+    await todoRef(itemId).update({ name: newItemName });
   };
 
   const toggleAllTodos = async () => {
     await todos.forEach((todo) => {
-      todosRef.doc(todo.id).update({ done: !isAllDone });
+      todoRef(todo.id).update({ done: !isAllDone });
     });
   };
 
   const deleteDone = async () => {
-    const newTodos = todos.filter((todo) => {
-      return todo.done;
-    });
-
-    await newTodos.forEach((todo) => todosRef.doc(todo.id).delete());
+    const newTodos = todos.filter((todo) => todo.done);
+    await newTodos.forEach((todo) => todoRef(todo.id).delete());
   };
 
   return (
