@@ -1,14 +1,21 @@
 import React, { FC } from 'react';
-import { TouchableOpacity, Text, StyleSheet, TextStyle } from 'react-native';
+import {
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 
 interface ButtonProps {
   type?: 'primary' | 'secondary' | 'tertiary';
   title: string;
+  loading?: boolean;
   onPress: () => void;
 }
 
 export const Button: FC<ButtonProps> = ({
   type = 'secondary',
+  loading = false,
   title,
   onPress,
 }) => {
@@ -18,8 +25,13 @@ export const Button: FC<ButtonProps> = ({
   return (
     <TouchableOpacity
       style={[styles.button, ...primaryStyles, ...tertiaryStyles]}
-      onPress={onPress}>
-      <Text style={[styles.title, ...primaryTextStyles]}>{title}</Text>
+      onPress={onPress}
+      disabled={loading}>
+      {loading ? (
+        <ActivityIndicator />
+      ) : (
+        <Text style={[styles.title, ...primaryTextStyles]}>{title}</Text>
+      )}
     </TouchableOpacity>
   );
 };
