@@ -2,15 +2,13 @@ import React, {
   createContext,
   ReactNode,
   useState,
-  useCallback,
-  useEffect,
   Dispatch,
   SetStateAction,
+  useEffect,
 } from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
-import { Todo } from '../Interfaces';
+import firestore from '@react-native-firebase/firestore';
 
-const TODOS_KEY = 'TODOS_KEY';
+import { Todo } from '../Interfaces';
 
 type ActiveFilterState = 'all' | 'done' | 'active';
 
@@ -46,30 +44,29 @@ interface Props {
   children?: ReactNode;
 }
 
-function uuidv4() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = (Math.random() * 16) | 0,
-      v = c === 'x' ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
-}
-
 export function TodoProvider(props: Props) {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [activeFilter, setActiveFilter] = useState<ActiveFilterState>('all');
+  const todosRef = firestore().collection('Todos');
 
-  // TODO: uncomment when app finished
   useEffect(() => {
-    getItem();
+    const subscription = todosRef.onSnapshot((querySnapshot) => {
+      const list: Todo[] = [];
+      querySnapshot.forEach((doc) => {
+        const { name, date, done } = doc.data();
+        list.push({
+          id: doc.id,
+          name,
+          date,
+          done,
+        });
+      });
+
+      setTodos(list);
+    });
+    return () => subscription();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (todos !== null) {
-      setItem(todos);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [todos]);
 
   const isAllDone =
     todos.length === 0 ? false : todos.every((todo) => todo.done);
@@ -84,81 +81,40 @@ export function TodoProvider(props: Props) {
     }
   });
 
-  const getItem = useCallback(async () => {
-    const rawValue = (await AsyncStorage.getItem(TODOS_KEY)) || '';
-    const value = JSON.parse(rawValue) || [];
-    const newTodos = value.map((todo: Todo) => {
-      const newTodo = {
-        ...todo,
-        date: new Date(todo.date),
-      };
-      return newTodo;
-    });
-    setTodos(newTodos);
-  }, []);
-
-  const setItem = useCallback(async (value) => {
-    await AsyncStorage.setItem(TODOS_KEY, JSON.stringify(value));
-  }, []);
-
-  const addItem = (itemName: string) => {
-    const newTodo: Todo = {
-      id: uuidv4(),
+  const addItem = async (itemName: string) => {
+    const newTodo = {
       name: itemName,
       date: new Date(),
       done: false,
     };
-    const newTodos = [newTodo, ...todos];
-    setTodos(newTodos);
+    await todosRef.add(newTodo);
   };
 
-  const deleteItem = (itemId: string) => {
-    const newTodos = todos.filter((todo: Todo) => todo.id !== itemId);
-    setTodos(newTodos);
+  const deleteItem = async (itemId: string) => {
+    await todosRef.doc(itemId).delete();
   };
 
-  const toggleDoneItem = (itemId: string) => {
-    const newTodos = todos.map((todo: Todo) => {
-      if (todo.id === itemId) {
-        return {
-          ...todo,
-          done: !todo.done,
-        };
-      }
-      return todo;
+  const toggleDoneItem = async (itemId: string) => {
+    const todoDone = todos.find((todo) => todo.id === itemId)?.done || false;
+    await todosRef.doc(itemId).update({ done: !todoDone });
+  };
+
+  const editItem = async (newItemName: string, itemId: string) => {
+    await todosRef.doc(itemId).update({ name: newItemName });
+  };
+
+  const toggleAllTodos = async () => {
+    await todos.forEach((todo) => {
+      todosRef.doc(todo.id).update({ done: !isAllDone });
     });
-    setTodos(newTodos);
   };
 
-  const editItem = (newItemName: string, itemId: string) => {
-    const newTodos = todos.map((todo) => {
-      if (todo.id === itemId) {
-        return {
-          ...todo,
-          name: newItemName,
-        };
-      }
-      return todo;
-    });
-    setTodos(newTodos);
-  };
-
-  const toggleAllTodos = () => {
-    const newTodos = todos.map((todo) => {
-      return {
-        ...todo,
-        done: !isAllDone,
-      };
-    });
-    setTodos(newTodos);
-  };
-
-  const deleteDone = () => {
+  const deleteDone = async () => {
     const newTodos = todos.filter((todo) => {
-      return !todo.done;
+      return todo.done;
     });
 
-    setTodos(newTodos);
+    await newTodos.forEach((todo) => todosRef.doc(todo.id).delete());
   };
 
   return (
