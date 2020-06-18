@@ -51,7 +51,10 @@ export const TodoItem: React.FC<IProps> = ({ item }) => {
         value={item.done}
         onValueChange={() => toggleDoneItem(item.id)}
       />
-      <Text style={[styles.heading, ...doneTextStyle]}>{item.name}</Text>
+      <View style={styles.heading}>
+        <Text style={[styles.todoText, ...doneTextStyle]}>{item.name}</Text>
+        {item.user ? <Text style={styles.todoUser}>{item.user}</Text> : null}
+      </View>
       <View style={styles.buttonsContainer}>
         <Button
           type="tertiary"
@@ -76,10 +79,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   heading: {
+    flexDirection: 'column',
     marginBottom: 4,
-    fontSize: 20,
     maxWidth: 400,
     width: '65%',
+  },
+  todoText: {
+    fontSize: 20,
+  },
+  todoUser: {
+    color: '#444',
   },
   todoContainer: {
     height: 70,
