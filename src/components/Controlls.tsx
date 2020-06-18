@@ -1,5 +1,7 @@
 import React from 'react';
+import auth from '@react-native-firebase/auth';
 import { StyleSheet, View } from 'react-native';
+
 import { useTodos } from '../hooks';
 import { Button } from './Button';
 
@@ -14,6 +16,10 @@ export const Controlls: React.FC = () => {
     isAllDone,
     deleteDone,
   } = useTodos();
+
+  const logout = async () => {
+    await auth().signOut();
+  };
 
   const renderFilterButtons = () => {
     return modes.map((mode, index) => {
@@ -40,6 +46,7 @@ export const Controlls: React.FC = () => {
         }}
       />
       <Button title="Delete done" onPress={() => deleteDone()} />
+      <Button type="primary" title="Logout" onPress={logout} />
     </>
   );
 
