@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   tertiaryButton: {
-    color: 'transparent',
+    backgroundColor: 'transparent',
     width: 'auto',
   },
   title: {
