@@ -61,6 +61,7 @@ export const Auth = () => {
         )}
         <Input placeholder="login" value={login} onChangeText={setLogin} />
         <Input
+          secureTextEntry
           placeholder="password"
           value={password}
           onChangeText={setPassword}
@@ -74,7 +75,6 @@ export const Auth = () => {
         />
         <View style={styles.separator} />
         <Button
-          loading={loading}
           type="tertiary"
           title={`Click to ${opositeMode}`}
           onPress={() => setMode(opositeMode)}
