@@ -6,10 +6,7 @@ interface Props {
 }
 
 export const Input: FC<Props | TextInputProps> = ({ style, ...rest }) => {
-  const inputStyles = {
-    ...styles.textInput,
-    ...style,
-  };
+  const inputStyles = [styles.textInput, style];
   return <TextInput style={inputStyles} {...rest} />;
 };
 
