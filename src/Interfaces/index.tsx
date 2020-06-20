@@ -7,3 +7,9 @@ export interface Todo {
 }
 
 export type viewState = 'default' | 'edit';
+
+export type RootStackParamList = {
+  Home: undefined;
+  Settings: undefined;
+  Todos: undefined;
+};
