@@ -1,33 +1,16 @@
 import React, { FC } from 'react';
-import { ViewStyle, StyleSheet, TextInput } from 'react-native';
+import { ViewStyle, StyleSheet, TextInput, TextInputProps } from 'react-native';
 
 interface Props {
-  value: string;
   style?: ViewStyle;
-  placeholder?: string;
-  onChangeText: (value: string) => void;
 }
 
-export const Input: FC<Props> = ({
-  value,
-  style,
-  placeholder = 'Title',
-  onChangeText,
-  ...rest
-}) => {
+export const Input: FC<Props | TextInputProps> = ({ style, ...rest }) => {
   const inputStyles = {
     ...styles.textInput,
     ...style,
   };
-  return (
-    <TextInput
-      style={inputStyles}
-      value={value}
-      placeholder={placeholder}
-      onChangeText={onChangeText}
-      {...rest}
-    />
-  );
+  return <TextInput style={inputStyles} {...rest} />;
 };
 
 interface Style {
