@@ -17,7 +17,7 @@ interface Style {
 const styles = StyleSheet.create<Style>({
   textInput: {
     width: '80%',
-    backgroundColor: '#eee',
+    backgroundColor: '#fff',
     padding: 10,
     borderRadius: 1000,
     marginVertical: 10,

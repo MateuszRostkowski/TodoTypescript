@@ -96,8 +96,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     borderRadius: 8,
-    backgroundColor: '#eee',
+    backgroundColor: '#fff',
     margin: 8,
     padding: 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
 });
