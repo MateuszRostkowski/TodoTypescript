@@ -7,9 +7,9 @@ import React, {
   useEffect,
 } from 'react';
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
 
 import { Todo } from '../Interfaces';
+import { getCurrentUser } from '../services';
 
 type ActiveFilterState = 'all' | 'done' | 'active';
 
@@ -49,7 +49,7 @@ export function TodoProvider(props: Props) {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [activeFilter, setActiveFilter] = useState<ActiveFilterState>('all');
   const todosRef = firestore().collection('Todos');
-  const currentUser = auth()?.currentUser?.displayName || '';
+  const currentUser = getCurrentUser();
 
   useEffect(() => {
     const subscription = todosRef.onSnapshot((querySnapshot) => {
