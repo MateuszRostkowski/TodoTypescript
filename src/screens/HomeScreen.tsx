@@ -24,7 +24,7 @@ export const HomeScreen: FC<Props> = ({ navigation }) => {
         <Separator />
         <Text style={styles.todosHeading}>Latest Todo</Text>
         <Text>
-          {todos[0].name} added by {todos[0].user}
+          {todos[0]?.name} added by {todos[0]?.user}
         </Text>
         <Separator />
         <Line />
