@@ -17,10 +17,6 @@ export const Controlls: React.FC = () => {
     deleteDone,
   } = useTodos();
 
-  const logout = async () => {
-    await auth().signOut();
-  };
-
   const renderFilterButtons = () => {
     return modes.map((mode, index) => {
       const isActive = activeFilter === mode;
@@ -46,7 +42,6 @@ export const Controlls: React.FC = () => {
         }}
       />
       <Button title="Delete done" onPress={() => deleteDone()} />
-      <Button type="primary" title="Logout" onPress={logout} />
     </>
   );
 
