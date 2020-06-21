@@ -1,16 +1,13 @@
 import React from 'react';
-import { Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { TodoScreen, HomeScreen } from '../screens';
+
+import { TodoScreen, HomeScreen, SettingsScreen } from '../screens';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
-const SettingsScreen = () => <Text>Settings</Text>;
 
 function Tabs() {
   return (
