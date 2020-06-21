@@ -1,5 +1,13 @@
 import auth from '@react-native-firebase/auth';
 
+export const updateUserName = async (displayName: string) => {
+  await auth().currentUser?.updateProfile({ displayName });
+};
+
+export const getCurrentUser = () => {
+  return auth()?.currentUser?.displayName || '';
+};
+
 export const signIn = async (login: string, password: string) => {
   await auth().signInWithEmailAndPassword(login, password);
 };
@@ -10,5 +18,9 @@ export const registerUser = async (
   name: string,
 ) => {
   await auth().createUserWithEmailAndPassword(login, password);
-  await auth().currentUser?.updateProfile({ displayName: name });
+  updateUserName(name);
+};
+
+export const logout = async () => {
+  await auth().signOut();
 };
