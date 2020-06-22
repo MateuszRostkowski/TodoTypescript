@@ -18,7 +18,9 @@ export const registerUser = async (
   name: string,
 ) => {
   await auth().createUserWithEmailAndPassword(login, password);
-  updateUserName(name);
+  if (name) {
+    updateUserName(name);
+  }
 };
 
 export const logout = async () => {
