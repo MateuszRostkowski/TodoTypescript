@@ -3,6 +3,7 @@ export * from './Button';
 export * from './Checkbox';
 export * from './Controlls';
 export * from './Input';
+export * from './KeyboardAwareScrollView';
 export * from './TodoInput';
 export * from './TodoItem';
 export * from './TodosList';
