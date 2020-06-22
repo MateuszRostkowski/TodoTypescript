@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, View, StyleSheet, Text } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text } from 'react-native';
 import { Button, Input, Box } from '../components';
-import { updateUserName, getCurrentUser } from '../services';
+import { updateUserName, getCurrentUser, logout } from '../services';
 
 export const SettingsScreen = () => {
   const [name, setName] = useState('');
@@ -25,6 +25,7 @@ export const SettingsScreen = () => {
         title="Change name"
         onPress={submit}
       />
+      <Button type="tertiary" title="Logout" onPress={logout} />
     </KeyboardAvoidingView>
   );
 };
