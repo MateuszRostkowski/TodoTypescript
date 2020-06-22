@@ -21,28 +21,13 @@ export const Auth = () => {
   const opositeMode = mode === 'Register' ? 'Login' : 'Register';
 
   const submit = async () => {
-    if (mode === 'Login') {
-      await submitLogin();
-    } else {
-      await submitRegister();
-    }
-  };
-
-  const submitLogin = async () => {
     setLoading(true);
     try {
-      await signIn(login, password);
-      // eslint-disable-next-line no-shadow
-    } catch (error) {
-      setError(error.message);
-      setLoading(false);
-    }
-  };
-
-  const submitRegister = async () => {
-    setLoading(true);
-    try {
-      await registerUser(login, password, name);
+      if (mode === 'Login') {
+        await signIn(login, password);
+      } else {
+        await registerUser(login, password, name);
+      }
       // eslint-disable-next-line no-shadow
     } catch (error) {
       setError(error.message);
@@ -51,7 +36,7 @@ export const Auth = () => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.background}>
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <Text>{mode} by using email</Text>
         <Text style={styles.error}>{error}</Text>
@@ -85,6 +70,9 @@ export const Auth = () => {
 };
 
 const styles = StyleSheet.create({
+  background: {
+    backgroundColor: '#eee',
+  },
   error: {
     textAlign: 'center',
     marginHorizontal: 20,
@@ -92,10 +80,6 @@ const styles = StyleSheet.create({
   },
   separator: {
     margin: 5,
-  },
-  editContainer: {
-    height: '100%',
-    justifyContent: 'center',
   },
   container: {
     height: '100%',
