@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { Text, View, StyleSheet, TextInput } from 'react-native';
 
 import { Todo } from '../Interfaces';
 import { useTodos } from '../hooks';
@@ -15,11 +15,22 @@ export const TodoItem: React.FC<IProps> = ({ item }) => {
   const { deleteItem, editItem, toggleDoneItem } = useTodos();
   const [editMode, setEditMode] = useState(false);
   const [newTitle, setNewTitle] = useState(item.name);
+  const inputRef = useRef<TextInput>(null);
 
   const doneTextStyle = item.done ? [styles.doneTextStyle] : [];
 
+  const handleEditPress = () => {
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 100);
+    setEditMode(!editMode);
+  };
+
   const handleEditTodo = () => {
     setEditMode(!editMode);
+    if (!newTitle) {
+      return;
+    }
     editItem(newTitle, item.id);
   };
 
@@ -32,6 +43,7 @@ export const TodoItem: React.FC<IProps> = ({ item }) => {
     return (
       <View style={styles.todoContainer}>
         <Input
+          ref={inputRef}
           style={styles.editInput}
           value={newTitle}
           onChangeText={setNewTitle}
@@ -56,11 +68,7 @@ export const TodoItem: React.FC<IProps> = ({ item }) => {
         {item.user ? <Text style={styles.todoUser}>{item.user}</Text> : null}
       </View>
       <View style={styles.buttonsContainer}>
-        <Button
-          type="tertiary"
-          title="Edit"
-          onPress={() => setEditMode(!editMode)}
-        />
+        <Button type="tertiary" title="Edit" onPress={handleEditPress} />
         <Button type="tertiary" title="X" onPress={() => deleteItem(item.id)} />
       </View>
     </View>
@@ -91,7 +99,6 @@ const styles = StyleSheet.create({
     color: '#444',
   },
   todoContainer: {
-    height: 70,
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
@@ -99,6 +106,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     margin: 8,
     padding: 8,
+    paddingVertical: 12,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
