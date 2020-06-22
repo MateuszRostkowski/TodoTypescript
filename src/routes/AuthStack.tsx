@@ -1,13 +1,7 @@
 /* eslint-disable no-catch-shadow */
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  Text,
-  View,
-} from 'react-native';
-import { Input, Button } from '../components';
+import { StyleSheet, SafeAreaView, Text, View } from 'react-native';
+import { Input, Button, KeyboardAwareScrollView } from '../components';
 import { signIn, registerUser } from '../services';
 
 export const Auth = () => {
@@ -37,7 +31,7 @@ export const Auth = () => {
 
   return (
     <SafeAreaView style={styles.background}>
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <KeyboardAwareScrollView contentContainerStyle={styles.container}>
         <Text>{mode} by using email</Text>
         <Text style={styles.error}>{error}</Text>
         <View style={styles.separator} />
@@ -64,7 +58,7 @@ export const Auth = () => {
           title={`Click to ${opositeMode}`}
           onPress={() => setMode(opositeMode)}
         />
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 };
@@ -72,6 +66,7 @@ export const Auth = () => {
 const styles = StyleSheet.create({
   background: {
     backgroundColor: '#eee',
+    flex: 1,
   },
   error: {
     textAlign: 'center',
