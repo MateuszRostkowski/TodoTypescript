@@ -5,6 +5,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../Interfaces';
 import { useTodos } from '../hooks';
 import { ScrollView } from 'react-native-gesture-handler';
+import { getCurrentUser } from '../services';
 
 interface Props {
   navigation: StackNavigationProp<RootStackParamList, 'Home'>;
@@ -15,8 +16,19 @@ const Line = () => <View style={styles.line} />;
 
 export const HomeScreen: FC<Props> = ({ navigation }) => {
   const { todos } = useTodos();
+  const user = getCurrentUser();
   return (
     <ScrollView>
+      <Separator />
+      <View style={styles.tile}>
+        <Text style={styles.heading}>Hello {user}</Text>
+        <Separator />
+        <Line />
+        <Separator />
+        <Text style={styles.todosHeading}>
+          Check out todos what you need to finish
+        </Text>
+      </View>
       <View style={styles.tile}>
         <Text style={styles.heading}>Check what needs to be done</Text>
         <Separator />
@@ -62,7 +74,8 @@ const styles = StyleSheet.create({
   tile: {
     width,
     backgroundColor: 'white',
-    margin,
+    marginHorizontal: margin,
+    marginVertical: margin / 2,
     padding: margin,
     borderRadius: 8,
     shadowColor: '#000',
