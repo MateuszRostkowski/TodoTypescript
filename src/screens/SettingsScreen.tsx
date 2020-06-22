@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text } from 'react-native';
-import { Button, Input, Box } from '../components';
+import { StyleSheet, Text } from 'react-native';
+import { Button, Input, Box, KeyboardAwareScrollView } from '../components';
 import { updateUserName, getCurrentUser, logout } from '../services';
 
 export const SettingsScreen = () => {
@@ -14,7 +14,7 @@ export const SettingsScreen = () => {
     setLoading(false);
   };
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <KeyboardAwareScrollView contentContainerStyle={styles.container}>
       <Text>Hello {user} you can change your name if you want</Text>
       <Box mt="4px" />
       <Input placeholder="name" value={name} onChangeText={setName} />
@@ -26,13 +26,13 @@ export const SettingsScreen = () => {
         onPress={submit}
       />
       <Button type="tertiary" title="Logout" onPress={logout} />
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
+    flexGrow: 1,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
