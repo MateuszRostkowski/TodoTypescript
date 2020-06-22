@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Root, Auth } from './routes';
 import { TodoProvider } from './contexts';
+import { ThemeProvider } from 'styled-components';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 export const App = () => {
@@ -15,13 +16,9 @@ export const App = () => {
     setUser(newUser);
   }
 
-  if (!user) {
-    return <Auth />;
-  }
-
   return (
-    <TodoProvider>
-      <Root />
-    </TodoProvider>
+    <ThemeProvider theme={{}}>
+      <TodoProvider>{user !== null ? <Root /> : <Auth />}</TodoProvider>
+    </ThemeProvider>
   );
 };
