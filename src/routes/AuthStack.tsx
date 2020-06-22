@@ -32,32 +32,34 @@ export const Auth = () => {
   return (
     <SafeAreaView style={styles.background}>
       <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-        <Text>{mode} by using email</Text>
-        <Text style={styles.error}>{error}</Text>
-        <View style={styles.separator} />
-        {mode === 'Register' && (
-          <Input placeholder="name" value={name} onChangeText={setName} />
-        )}
-        <Input placeholder="login" value={login} onChangeText={setLogin} />
-        <Input
-          secureTextEntry
-          placeholder="password"
-          value={password}
-          onChangeText={setPassword}
-        />
-        <View style={styles.separator} />
-        <Button
-          loading={loading}
-          type="primary"
-          title={mode}
-          onPress={submit}
-        />
-        <View style={styles.separator} />
-        <Button
-          type="tertiary"
-          title={`Click to ${opositeMode}`}
-          onPress={() => setMode(opositeMode)}
-        />
+        <View style={styles.authContainer}>
+          <Text>{mode} by using email</Text>
+          <Text style={styles.error}>{error}</Text>
+          <View style={styles.separator} />
+          {mode === 'Register' && (
+            <Input placeholder="name" value={name} onChangeText={setName} />
+          )}
+          <Input placeholder="login" value={login} onChangeText={setLogin} />
+          <Input
+            secureTextEntry
+            placeholder="password"
+            value={password}
+            onChangeText={setPassword}
+          />
+          <View style={styles.separator} />
+          <Button
+            loading={loading}
+            type="primary"
+            title={mode}
+            onPress={submit}
+          />
+          <View style={styles.separator} />
+          <Button
+            type="tertiary"
+            title={`Click to ${opositeMode}`}
+            onPress={() => setMode(opositeMode)}
+          />
+        </View>
       </KeyboardAwareScrollView>
     </SafeAreaView>
   );
@@ -77,7 +79,11 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   container: {
-    height: '100%',
+    flexGrow: 1,
+  },
+  authContainer: {
+    marginTop: 20,
+    flexGrow: 1,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
