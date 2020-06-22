@@ -41,7 +41,7 @@ export const TodoItem: React.FC<IProps> = ({ item }) => {
 
   if (editMode) {
     return (
-      <View style={styles.todoContainer}>
+      <View style={[styles.todoContainer, styles.todoEditContainer]}>
         <Input
           ref={inputRef}
           style={styles.editInput}
@@ -116,5 +116,9 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 5,
+  },
+  todoEditContainer: {
+    height: 70,
+    paddingVertical: 0,
   },
 });
