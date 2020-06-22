@@ -1,14 +1,17 @@
-import React, { FC } from 'react';
+import React, { FC, forwardRef } from 'react';
 import { ViewStyle, StyleSheet, TextInput, TextInputProps } from 'react-native';
 
 interface Props {
   style?: ViewStyle;
+  ref?: any;
 }
 
-export const Input: FC<Props | TextInputProps> = ({ style, ...rest }) => {
-  const inputStyles = [styles.textInput, style];
-  return <TextInput style={inputStyles} {...rest} />;
-};
+export const Input: FC<Props | TextInputProps> = forwardRef(
+  ({ style, ...rest }, ref) => {
+    const inputStyles = [styles.textInput, style];
+    return <TextInput ref={ref} style={inputStyles} {...rest} />;
+  },
+);
 
 interface Style {
   textInput: ViewStyle;
