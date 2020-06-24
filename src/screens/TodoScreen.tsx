@@ -4,13 +4,16 @@ import {
   View,
   SafeAreaView,
   KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { TodoInput, TodosList, Controlls } from '../components';
 
 export const TodoScreen = () => {
   return (
     <SafeAreaView>
-      <KeyboardAvoidingView behavior="padding">
+      <KeyboardAvoidingView
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={90}>
         <View style={styles.container}>
           <TodosList />
           <Controlls />
