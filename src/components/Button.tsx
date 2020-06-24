@@ -4,13 +4,14 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
+  GestureResponderEvent,
 } from 'react-native';
 
 interface ButtonProps {
   type?: 'primary' | 'secondary' | 'tertiary';
   title: string;
   loading?: boolean;
-  onPress: () => void;
+  onPress: (() => void) | ((event: GestureResponderEvent) => void) | undefined;
 }
 
 export const Button: FC<ButtonProps> = ({
