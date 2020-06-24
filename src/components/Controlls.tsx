@@ -37,11 +37,9 @@ export const Controlls: React.FC = () => {
       <Button
         title="Toggle all"
         type={isAllDone ? 'primary' : 'secondary'}
-        onPress={() => {
-          toggleAllTodos();
-        }}
+        onPress={toggleAllTodos}
       />
-      <Button title="Delete done" onPress={() => deleteDone()} />
+      <Button title="Delete done" onPress={deleteDone} />
     </>
   );
 
