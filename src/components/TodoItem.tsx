@@ -7,11 +7,11 @@ import { Button } from './Button';
 import { Input } from './Input';
 import { Checkbox } from './Checkbox';
 
-interface IProps {
+interface TodoItemProps {
   item: Todo;
 }
 
-export const TodoItem: React.FC<IProps> = ({ item }) => {
+export const TodoItem: React.FC<TodoItemProps> = ({ item }) => {
   const { deleteItem, editItem, toggleDoneItem } = useTodos();
   const [editMode, setEditMode] = useState(false);
   const [newTitle, setNewTitle] = useState(item.name);
