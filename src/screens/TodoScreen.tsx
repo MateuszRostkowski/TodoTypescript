@@ -7,8 +7,14 @@ import {
   Platform,
 } from 'react-native';
 import { TodoInput, TodosList, Controlls } from '../components';
+import { useTitle, useTodos, useTodoLists } from '../hooks';
 
 export const TodoScreen = () => {
+  const { currentTodoList } = useTodos();
+  const { userTodoLists } = useTodoLists();
+  const { name } =
+    userTodoLists.find((list) => list.id === currentTodoList) || 'Todos';
+  useTitle(name);
   return (
     <SafeAreaView>
       <KeyboardAvoidingView

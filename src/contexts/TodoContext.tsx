@@ -25,6 +25,8 @@ interface TodoContext {
   todos: Todo[];
   toggleAllTodos: () => void;
   toggleDoneItem: (_itemId: string) => void;
+  currentTodoList: Text;
+  setCurrentTodoList: Dispatch<SetStateAction<string>>;
 }
 
 export const TodoContext = createContext<TodoContext>({
@@ -39,6 +41,8 @@ export const TodoContext = createContext<TodoContext>({
   todos: [],
   toggleAllTodos: () => {},
   toggleDoneItem: (_itemId: string) => {},
+  currentTodoList: '',
+  setCurrentTodoList: () => {},
 });
 
 interface Props {
@@ -70,7 +74,7 @@ export function TodoProvider(props: Props) {
     });
     return () => subscription();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentTodoList]);
 
   const isAllDone =
     todos.length === 0 ? false : todos.every((todo) => todo.done);
@@ -139,6 +143,8 @@ export function TodoProvider(props: Props) {
         todos: todosToDisplay,
         toggleAllTodos,
         toggleDoneItem,
+        currentTodoList,
+        setCurrentTodoList,
       }}>
       {props.children}
     </TodoContext.Provider>
