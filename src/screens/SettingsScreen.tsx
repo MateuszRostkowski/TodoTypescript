@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { Button, Input, Box, KeyboardAwareScrollView } from '../components';
-import { updateUserName, getCurrentUser, logout } from '../services';
+import { updateUserName, getCurrentUserName, logout } from '../services';
 
 export const SettingsScreen = () => {
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
-  const user = getCurrentUser();
+  const user = getCurrentUserName();
 
   const submit = async () => {
     setLoading(true);

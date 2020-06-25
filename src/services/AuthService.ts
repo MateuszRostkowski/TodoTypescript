@@ -4,8 +4,12 @@ export const updateUserName = async (displayName: string) => {
   await auth().currentUser?.updateProfile({ displayName });
 };
 
-export const getCurrentUser = () => {
+export const getCurrentUserName = () => {
   return auth()?.currentUser?.displayName || '';
+};
+
+export const getCurrentUser = () => {
+  return auth()?.currentUser;
 };
 
 export const signIn = async (login: string, password: string) => {

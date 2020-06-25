@@ -1,12 +1,13 @@
 import React, { FC, useState } from 'react';
-import { Text, StyleSheet, Dimensions } from 'react-native';
+import { ScrollView, Text, StyleSheet, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
-import { Button, Input, Box } from '../components';
+import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+
+import { Button, Input, Box } from '../components';
 import { RootStackParamList } from '../Interfaces';
 import { useTodos } from '../hooks';
-import { ScrollView } from 'react-native-gesture-handler';
-import { getCurrentUser } from '../services';
+import { getCurrentUserName } from '../services';
 
 interface Props {
   navigation: StackNavigationProp<RootStackParamList, 'Home'>;
@@ -68,9 +69,31 @@ const CreateTodosListTile = ({ navigation }) => {
   );
 };
 
+const TodoTile = () => {
+  const { todos } = useTodos();
+  const { navigate } = useNavigation();
+
+  const navigateToTodo = () => {
+    navigate('Todos');
+  };
+
+  return (
+    <Tile>
+      <Text style={styles.heading}>Check what needs to be done</Text>
+      <SeparatorWithLine />
+      <Text style={styles.todosHeading}>Latest Todo</Text>
+      <Text>
+        {todos[0]?.name} added by {todos[0]?.user}
+      </Text>
+      <SeparatorWithLine />
+      <Button type="primary" title="Navigate" onPress={navigateToTodo} />
+    </Tile>
+  );
+};
+
 export const HomeScreen: FC<Props> = ({ navigation }) => {
   const { todos } = useTodos();
-  const user = getCurrentUser();
+  const user = getCurrentUserName();
 
   return (
     <ScrollView>
@@ -83,20 +106,7 @@ export const HomeScreen: FC<Props> = ({ navigation }) => {
         </Text>
       </Tile>
       <CreateTodosListTile navigation={navigation} />
-      <Tile>
-        <Text style={styles.heading}>Check what needs to be done</Text>
-        <SeparatorWithLine />
-        <Text style={styles.todosHeading}>Latest Todo</Text>
-        <Text>
-          {todos[0]?.name} added by {todos[0]?.user}
-        </Text>
-        <SeparatorWithLine />
-        <Button
-          type="primary"
-          title="Navigate"
-          onPress={() => navigation.navigate('Todos')}
-        />
-      </Tile>
+      <TodoTile />
     </ScrollView>
   );
 };
