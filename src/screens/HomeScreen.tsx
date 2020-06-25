@@ -108,34 +108,8 @@ const styles = StyleSheet.create({
   todosHeading: {
     fontWeight: '600',
   },
-  separator: {
-    marginBottom: 12,
-  },
   heading: {
     fontSize: 20,
     fontWeight: '600',
-  },
-  line: {
-    width: '100%',
-    height: 2,
-    backgroundColor: '#eee',
-    borderRadius: 2,
-  },
-  tile: {
-    width,
-    backgroundColor: 'white',
-    marginHorizontal: margin,
-    marginVertical: margin / 2,
-    padding: margin,
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 3.84,
-
-    elevation: 5,
   },
 });
