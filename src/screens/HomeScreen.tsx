@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Text, StyleSheet, Dimensions, TextInputProps } from 'react-native';
+import { Text, StyleSheet, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { Button, Input, Box } from '../components';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -22,10 +22,7 @@ const Tile = styled.View`
   padding: ${margin}px;
   border-radius: 8px;
   shadow-color: #000;
-  shadow-offset: {
-    width: 0;
-    height: 2;
-  }
+  shadow-offset: 0px 2px;
   shadow-opacity: 0.08;
   shadow-radius: 3.84px;
   elevation: 5;
