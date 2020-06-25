@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { Root, Auth } from './routes';
-import { TodoProvider } from './contexts';
+import { TodoProvider, TodoListsProvider } from './contexts';
 import { ThemeProvider } from 'styled-components';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
@@ -17,8 +18,12 @@ export const App = () => {
   }
 
   return (
-    <ThemeProvider theme={{}}>
-      <TodoProvider>{user !== null ? <Root /> : <Auth />}</TodoProvider>
-    </ThemeProvider>
+    <NavigationContainer>
+      <ThemeProvider theme={{}}>
+        <TodoListsProvider>
+          <TodoProvider>{user !== null ? <Root /> : <Auth />}</TodoProvider>
+        </TodoListsProvider>
+      </ThemeProvider>
+    </NavigationContainer>
   );
 };
