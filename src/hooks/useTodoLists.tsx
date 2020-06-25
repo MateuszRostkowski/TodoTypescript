@@ -1,4 +1,4 @@
 import { useContext } from 'react';
-import { TodoContext } from '../contexts';
+import { TodoListsContext } from '../contexts';
 
-export const useTodoLists = () => useContext(TodoContext);
+export const useTodoLists = () => useContext(TodoListsContext);
