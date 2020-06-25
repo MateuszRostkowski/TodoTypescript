@@ -3,10 +3,16 @@ import { getCurrentUser } from './AuthService';
 
 const todoListsRef = firestore().collection('TodosLists');
 
-export const createTodoList = async (name: string) => {
+export const createTodoList = async (
+  name: string,
+  description: string,
+  details: string,
+) => {
   const currenUser = getCurrentUser();
   await todoListsRef.add({
     name,
+    description,
+    details,
     people: [{ email: currenUser?.email || '' }],
   });
 };

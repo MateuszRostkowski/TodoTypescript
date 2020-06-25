@@ -20,6 +20,8 @@ interface Person {
 interface TodoListItem {
   id: string;
   name: string;
+  description: string;
+  details: string;
   people: Person[];
 }
 
@@ -59,8 +61,6 @@ export function TodoListsProvider(props: Props) {
   const userTodoLists = todoLists.filter((todoList) =>
     todoList.people.some((person) => person.email === currentUser?.email),
   );
-
-  console.log({ userTodoLists, todoLists });
 
   return (
     <TodoListsContext.Provider value={{ userTodoLists }}>

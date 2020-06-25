@@ -6,7 +6,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import { Button, Input, Box } from '../components';
 import { RootStackParamList } from '../Interfaces';
-import { useTodos } from '../hooks';
+import { useTodos, useTodoLists } from '../hooks';
 import { getCurrentUserName, createTodoList } from '../services';
 
 interface Props {
@@ -57,7 +57,11 @@ const CreateTodosListTile = ({ navigation }) => {
 
   const handleCreateList = () => {
     setName('');
-    createTodoList(name);
+    createTodoList(
+      name,
+      'Attention',
+      'You can change description and details from todo settings. You can also add people to your list',
+    );
   };
   return (
     <Tile>
@@ -74,22 +78,21 @@ const CreateTodosListTile = ({ navigation }) => {
   );
 };
 
-const TodoTile = () => {
-  const { todos } = useTodos();
+const TodoTile = ({ name, id, description, details }) => {
+  const { setCurrentTodoList } = useTodos();
   const { navigate } = useNavigation();
 
   const navigateToTodo = () => {
     navigate('Todos');
+    setCurrentTodoList(id);
   };
 
   return (
     <Tile>
-      <Text style={styles.heading}>Check what needs to be done</Text>
+      <Text style={styles.heading}>{name}</Text>
       <SeparatorWithLine />
-      <Text style={styles.todosHeading}>Latest Todo</Text>
-      <Text>
-        {todos[0]?.name} added by {todos[0]?.user}
-      </Text>
+      <Text style={styles.todosHeading}>{description}</Text>
+      <Text>{details}</Text>
       <SeparatorWithLine />
       <Button type="primary" title="Navigate" onPress={navigateToTodo} />
     </Tile>
@@ -99,6 +102,7 @@ const TodoTile = () => {
 export const HomeScreen: FC<Props> = ({ navigation }) => {
   const { todos } = useTodos();
   const user = getCurrentUserName();
+  const { userTodoLists } = useTodoLists();
 
   return (
     <ScrollView>
@@ -111,7 +115,10 @@ export const HomeScreen: FC<Props> = ({ navigation }) => {
         </Text>
       </Tile>
       <CreateTodosListTile navigation={navigation} />
-      <TodoTile />
+      <TodoTile name={'Hello'} id="Todos" />
+      {userTodoLists.map((list) => (
+        <TodoTile key={list.id} {...list} />
+      ))}
     </ScrollView>
   );
 };
