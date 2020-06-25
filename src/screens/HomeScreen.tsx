@@ -115,7 +115,12 @@ export const HomeScreen: FC<Props> = ({ navigation }) => {
         </Text>
       </Tile>
       <CreateTodosListTile navigation={navigation} />
-      <TodoTile name={'Hello'} id="Todos" />
+      <TodoTile
+        name="Todo list"
+        description="List for everyone"
+        details="This list is for everyone who are using this app"
+        id="Todos"
+      />
       {userTodoLists.map((list) => (
         <TodoTile key={list.id} {...list} />
       ))}
