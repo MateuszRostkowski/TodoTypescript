@@ -7,7 +7,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { Button, Input, Box } from '../components';
 import { RootStackParamList } from '../Interfaces';
 import { useTodos } from '../hooks';
-import { getCurrentUserName } from '../services';
+import { getCurrentUserName, createTodoList } from '../services';
 
 interface Props {
   navigation: StackNavigationProp<RootStackParamList, 'Home'>;
@@ -54,6 +54,11 @@ const StyledInput = styled(Input)`
 
 const CreateTodosListTile = ({ navigation }) => {
   const [name, setName] = useState('');
+
+  const handleCreateList = () => {
+    setName('');
+    createTodoList(name);
+  };
   return (
     <Tile>
       <Text style={styles.heading}>Create new list</Text>
@@ -64,7 +69,7 @@ const CreateTodosListTile = ({ navigation }) => {
         placeholder="Type new list name"
       />
       <SeparatorWithLine />
-      <Button type="primary" title="Create" onPress={() => alert(name)} />
+      <Button type="primary" title="Create" onPress={handleCreateList} />
     </Tile>
   );
 };
