@@ -80,12 +80,12 @@ export const CreateTodosListTile = () => {
 };
 
 export const TodoTile: FC<TodoTile> = ({ name, id, description, details }) => {
-  const { setCurrentTodoList } = useTodos();
+  const { setCurrentTodoListName } = useTodos();
   const { navigate } = useNavigation();
 
   const navigateToTodo = () => {
     navigate('Todos');
-    setCurrentTodoList(id);
+    setCurrentTodoListName(id);
   };
 
   return (

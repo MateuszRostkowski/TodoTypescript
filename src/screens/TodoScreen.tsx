@@ -11,19 +11,22 @@ import { TodoInput, TodosList, Controlls, Touchable } from '../components';
 import { useTitle, useTodos, useTodoLists } from '../hooks';
 
 export const TodoScreen = ({ navigation }) => {
-  const { currentTodoList } = useTodos();
+  const { currentTodoListName } = useTodos();
   const { userTodoLists } = useTodoLists();
   const { name } =
-    userTodoLists.find((list) => list.id === currentTodoList) || 'Todos';
+    userTodoLists.find((list) => list.id === currentTodoListName) || 'Todos';
   useTitle(name);
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <Touchable m="10px" onPress={() => navigation.navigate('TodoSettings')}>
-          <Text>Edit</Text>
-        </Touchable>
-      ),
+      headerRight: () =>
+        currentTodoListName !== 'Todos' ? (
+          <Touchable
+            m="15px"
+            onPress={() => navigation.navigate('TodoSettings')}>
+            <Text style={styles.todoListEditHeader}>Edit</Text>
+          </Touchable>
+        ) : null,
     });
   }, [navigation]);
 
@@ -43,6 +46,10 @@ export const TodoScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  todoListEditHeader: {
+    color: '#06f',
+    fontSize: 15,
+  },
   editContainer: {
     height: '100%',
     justifyContent: 'center',
