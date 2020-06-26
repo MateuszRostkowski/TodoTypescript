@@ -7,3 +7,4 @@ export * from './KeyboardAwareScrollView';
 export * from './TodoInput';
 export * from './TodoItem';
 export * from './TodosList';
+export * from './TodoTile';
