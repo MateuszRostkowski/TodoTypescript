@@ -17,6 +17,7 @@ import {
   size,
   SizeProps,
 } from 'styled-system';
+
 type BoxProps = FC &
   ColorProps &
   SpaceProps &
@@ -29,5 +30,9 @@ type BoxProps = FC &
 const common = [space, flexbox, border, color, position, layout, size];
 
 export const Box = styled.Text<BoxProps>`
+  ${common}
+`;
+
+export const Touchable = styled.TouchableOpacity<BoxProps>`
   ${common}
 `;
