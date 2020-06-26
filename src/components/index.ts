@@ -4,6 +4,7 @@ export * from './Checkbox';
 export * from './Controlls';
 export * from './Input';
 export * from './KeyboardAwareScrollView';
+export * from './ListItem';
 export * from './TodoInput';
 export * from './TodoItem';
 export * from './TodosList';
