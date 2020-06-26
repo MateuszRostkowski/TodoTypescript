@@ -3,7 +3,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import { TodoScreen, HomeScreen, SettingsScreen } from '../screens';
+import {
+  TodoScreen,
+  HomeScreen,
+  SettingsScreen,
+  TodoSettingsScreen,
+} from '../screens';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -36,6 +41,7 @@ export function Root() {
     <Stack.Navigator>
       <Stack.Screen name="Home" component={Tabs} />
       <Stack.Screen name="Todos" component={TodoScreen} />
+      <Stack.Screen name="TodoSettings" component={TodoSettingsScreen} />
     </Stack.Navigator>
   );
 }
