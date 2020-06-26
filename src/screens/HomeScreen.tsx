@@ -1,5 +1,11 @@
 import React, { FC, useState } from 'react';
-import { ScrollView, Text, StyleSheet, Dimensions } from 'react-native';
+import {
+  ScrollView,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TextInputProps,
+} from 'react-native';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -7,7 +13,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { Button, Input, Box } from '../components';
 import { RootStackParamList } from '../Interfaces';
 import { useTodos, useTodoLists } from '../hooks';
-import { getCurrentUserName, createTodoList } from '../services';
+import { createTodoList } from '../services';
 
 interface Props {
   navigation: StackNavigationProp<RootStackParamList, 'Home'>;
@@ -46,13 +52,13 @@ const SeparatorWithLine = () => (
   </>
 );
 
-const StyledInput = styled(Input)`
+const StyledInput = styled(Input)<TextInputProps>`
   background-color: #f1f1f1;
   margin: 0;
   width: 100%;
 `;
 
-const CreateTodosListTile = ({ navigation }) => {
+const CreateTodosListTile = () => {
   const [name, setName] = useState('');
 
   const handleCreateList = () => {
@@ -78,7 +84,14 @@ const CreateTodosListTile = ({ navigation }) => {
   );
 };
 
-const TodoTile = ({ name, id, description, details }) => {
+interface TodoTile {
+  name: string;
+  id: string;
+  description: string;
+  details: string;
+}
+
+const TodoTile: React.FC<TodoTile> = ({ name, id, description, details }) => {
   const { setCurrentTodoList } = useTodos();
   const { navigate } = useNavigation();
 
@@ -94,27 +107,18 @@ const TodoTile = ({ name, id, description, details }) => {
       <Text style={styles.todosHeading}>{description}</Text>
       <Text>{details}</Text>
       <SeparatorWithLine />
-      <Button type="primary" title="Navigate" onPress={navigateToTodo} />
+      <Button type="primary" title="Go to list" onPress={navigateToTodo} />
     </Tile>
   );
 };
 
-export const HomeScreen: FC<Props> = ({ navigation }) => {
-  const { todos } = useTodos();
-  const user = getCurrentUserName();
+export const HomeScreen: FC<Props> = () => {
   const { userTodoLists } = useTodoLists();
 
   return (
     <ScrollView>
       <Separator />
-      <Tile>
-        <Text style={styles.heading}>Hello {user}</Text>
-        <SeparatorWithLine />
-        <Text style={styles.todosHeading}>
-          Check out todos what you need to finish
-        </Text>
-      </Tile>
-      <CreateTodosListTile navigation={navigation} />
+      <CreateTodosListTile />
       <TodoTile
         name="Todo list"
         description="List for everyone"
