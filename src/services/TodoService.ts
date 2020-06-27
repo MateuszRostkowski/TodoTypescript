@@ -13,7 +13,8 @@ export const createTodoList = async (
     name,
     description,
     details,
-    people: [{ email: currenUser?.email || '' }],
+    owner: { email: currenUser?.email },
+    people: [],
   });
 };
 
