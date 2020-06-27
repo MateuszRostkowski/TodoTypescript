@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { Button, Input, Box } from './index';
 import { useTodos } from '../hooks';
-import { createTodoList } from '../services';
+import { createTodoList, getCurrentUser } from '../services';
 
 const margin = 16;
 const width = Dimensions.get('window').width - margin * 2;
@@ -55,6 +55,7 @@ interface TodoTile {
 
 export const CreateTodosListTile = () => {
   const [name, setName] = useState('');
+  const currentUser = getCurrentUser();
 
   const handleCreateList = () => {
     setName('');
@@ -62,6 +63,7 @@ export const CreateTodosListTile = () => {
       name,
       'Attention',
       'You can change description and details from todo settings. You can also add people to your list',
+      currentUser?.email,
     );
   };
   return (
@@ -80,12 +82,12 @@ export const CreateTodosListTile = () => {
 };
 
 export const TodoTile: FC<TodoTile> = ({ name, id, description, details }) => {
-  const { setCurrentTodoListName } = useTodos();
+  const { setCurrentTodoListId } = useTodos();
   const { navigate } = useNavigation();
 
   const navigateToTodo = () => {
     navigate('Todos');
-    setCurrentTodoListName(id);
+    setCurrentTodoListId(id);
   };
 
   return (
