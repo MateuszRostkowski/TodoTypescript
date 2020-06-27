@@ -20,7 +20,7 @@ interface ListItemProps {
 
 export const ListItem: FC<ListItemProps> = ({
   title,
-  iconName = 'ios-arrow-forward',
+  iconName,
   onIconPress = undefined,
   onPress = undefined,
 }) => {
@@ -30,12 +30,14 @@ export const ListItem: FC<ListItemProps> = ({
       onPress={onPress}
       disabled={!onPress}>
       <Text>{title}</Text>
-      <TouchableOpacity
-        hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}
-        disabled={!onIconPress}
-        onPress={onIconPress}>
-        <Ionicons name={iconName} size={20} />
-      </TouchableOpacity>
+      {iconName && (
+        <TouchableOpacity
+          hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}
+          disabled={!onIconPress}
+          onPress={onIconPress}>
+          <Ionicons name={iconName} size={20} />
+        </TouchableOpacity>
+      )}
     </TouchableOpacity>
   );
 };
