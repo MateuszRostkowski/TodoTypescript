@@ -1,11 +1,4 @@
-import React, {
-  createContext,
-  ReactNode,
-  useState,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-} from 'react';
+import React, { createContext, ReactNode, useState, useEffect } from 'react';
 import firestore from '@react-native-firebase/firestore';
 
 const todoListsRef = firestore().collection('TodosLists');
@@ -22,15 +15,18 @@ interface TodoListItem {
   name: string;
   description: string;
   details: string;
+  owner: Person;
   people: Person[];
 }
 
 interface TodoListsContext {
   userTodoLists: TodoListItem[];
+  addPersonToTodoList: (listId: string, email: string) => void;
 }
 
 export const TodoListsContext = createContext<TodoListsContext>({
   userTodoLists: [],
+  addPersonToTodoList: () => {},
 });
 
 interface Props {
@@ -58,12 +54,21 @@ export function TodoListsProvider(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const userTodoLists = todoLists.filter((todoList) =>
-    todoList.people.some((person) => person.email === currentUser?.email),
+  const userTodoLists = todoLists.filter(
+    (todoList) =>
+      todoList.people.some((person) => person.email === currentUser?.email) ||
+      todoList.owner.email === currentUser?.email,
   );
 
+  const addPersonToTodoList = (listId: string, email: string) => {
+    const todoList = todoLists.find((list) => list.id === listId);
+    const newPeopleInList = [...todoList?.people, { email }];
+
+    todoListsRef.doc(listId).update({ people: newPeopleInList });
+  };
+
   return (
-    <TodoListsContext.Provider value={{ userTodoLists }}>
+    <TodoListsContext.Provider value={{ userTodoLists, addPersonToTodoList }}>
       {props.children}
     </TodoListsContext.Provider>
   );
