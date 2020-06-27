@@ -25,8 +25,8 @@ interface TodoContext {
   todos: Todo[];
   toggleAllTodos: () => void;
   toggleDoneItem: (_itemId: string) => void;
-  currentTodoListName: string;
-  setCurrentTodoListName: Dispatch<SetStateAction<string>>;
+  currentTodoListId: string;
+  setCurrentTodoListId: Dispatch<SetStateAction<string>>;
 }
 
 export const TodoContext = createContext<TodoContext>({
@@ -41,8 +41,8 @@ export const TodoContext = createContext<TodoContext>({
   todos: [],
   toggleAllTodos: () => {},
   toggleDoneItem: (_itemId: string) => {},
-  currentTodoListName: '',
-  setCurrentTodoListName: () => {},
+  currentTodoListId: '',
+  setCurrentTodoListId: () => {},
 });
 
 interface Props {
@@ -51,9 +51,9 @@ interface Props {
 
 export function TodoProvider(props: Props) {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [currentTodoListName, setCurrentTodoListName] = useState('Todos');
+  const [currentTodoListId, setCurrentTodoListId] = useState('Todos');
   const [activeFilter, setActiveFilter] = useState<ActiveFilterState>('all');
-  const todosRef = firestore().collection(currentTodoListName);
+  const todosRef = firestore().collection(currentTodoListId);
   const currentUser = getCurrentUserName();
 
   useEffect(() => {
@@ -74,7 +74,7 @@ export function TodoProvider(props: Props) {
     });
     return () => subscription();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentTodoListName]);
+  }, [currentTodoListId]);
 
   const isAllDone =
     todos.length === 0 ? false : todos.every((todo) => todo.done);
@@ -143,8 +143,8 @@ export function TodoProvider(props: Props) {
         todos: todosToDisplay,
         toggleAllTodos,
         toggleDoneItem,
-        currentTodoListName,
-        setCurrentTodoListName,
+        currentTodoListId,
+        setCurrentTodoListId,
       }}>
       {props.children}
     </TodoContext.Provider>

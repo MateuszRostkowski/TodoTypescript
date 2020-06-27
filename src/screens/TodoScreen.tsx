@@ -11,16 +11,16 @@ import { TodoInput, TodosList, Controlls, Touchable } from '../components';
 import { useTitle, useTodos, useTodoLists } from '../hooks';
 
 export const TodoScreen = ({ navigation }) => {
-  const { currentTodoListName } = useTodos();
+  const { currentTodoListId } = useTodos();
   const { userTodoLists } = useTodoLists();
   const { name } =
-    userTodoLists.find((list) => list.id === currentTodoListName) || 'Todos';
+    userTodoLists.find((list) => list.id === currentTodoListId) || 'Todos';
   useTitle(name);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () =>
-        currentTodoListName !== 'Todos' ? (
+        currentTodoListId !== 'Todos' ? (
           <Touchable
             m="15px"
             onPress={() => navigation.navigate('TodoSettings')}>
