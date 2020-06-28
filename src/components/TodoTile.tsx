@@ -36,7 +36,7 @@ const Line = styled.View`
   border-radius: 2px;
 `;
 
-const Separator = () => <Box mt="4px" />;
+const Separator = () => <Box mt="8px" />;
 
 const SeparatorWithLine = () => (
   <>
