@@ -6,7 +6,7 @@ import { Touchable } from './_atoms';
 
 interface ListItemProps {
   title: string;
-  iconName: 'md-trash' | 'ios-arrow-forward';
+  iconName?: 'md-trash' | 'ios-arrow-forward';
   onPress?: (() => void) | ((event: GestureResponderEvent) => void) | undefined;
   onIconPress?:
     | (() => void)
