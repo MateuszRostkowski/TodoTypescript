@@ -3,7 +3,6 @@ import firestore from '@react-native-firebase/firestore';
 
 const todoListsRef = firestore().collection('TodosLists');
 
-import { Todo } from '../Interfaces';
 import { getCurrentUser } from '../services';
 
 interface Person {
@@ -22,11 +21,13 @@ interface TodoListItem {
 interface TodoListsContext {
   userTodoLists: TodoListItem[];
   addPersonToTodoList: (listId: string, email: string) => void;
+  removePersonFromTodoList: (listId: string, email: string) => void;
 }
 
 export const TodoListsContext = createContext<TodoListsContext>({
   userTodoLists: [],
   addPersonToTodoList: () => {},
+  removePersonFromTodoList: () => {},
 });
 
 interface Props {
@@ -67,8 +68,18 @@ export function TodoListsProvider(props: Props) {
     todoListsRef.doc(listId).update({ people: newPeopleInList });
   };
 
+  const removePersonFromTodoList = (listId: string, email: string) => {
+    const todoList = todoLists.find((list) => list.id === listId);
+    const newPeopleInList = todoList?.people.filter(
+      (person) => person.email !== email,
+    );
+
+    todoListsRef.doc(listId).update({ people: newPeopleInList });
+  };
+
   return (
-    <TodoListsContext.Provider value={{ userTodoLists, addPersonToTodoList }}>
+    <TodoListsContext.Provider
+      value={{ userTodoLists, addPersonToTodoList, removePersonFromTodoList }}>
       {props.children}
     </TodoListsContext.Provider>
   );
