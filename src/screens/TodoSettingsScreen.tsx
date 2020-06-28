@@ -22,7 +22,7 @@ export const TodoSettingsScreen: FC = () => {
   const [personEmail, setPersonEmail] = useState('');
   const currentUser = getCurrentUser();
   const { currentTodoListId } = useTodos();
-  const { addPersonToTodoList } = useTodoLists();
+  const { addPersonToTodoList, removePersonFromTodoList } = useTodoLists();
   const todoList = useCurrentTodoList(currentTodoListId);
   const isPersonOwner = todoList?.owner.email === currentUser?.email;
 
@@ -73,7 +73,9 @@ export const TodoSettingsScreen: FC = () => {
                   key={person.email}
                   title={person.email}
                   iconName={isPersonOwner ? 'md-trash' : undefined}
-                  onIconPress={() => alert(person.email)}
+                  onIconPress={() =>
+                    removePersonFromTodoList(currentTodoListId, person.email)
+                  }
                 />
               ))}
             </>
