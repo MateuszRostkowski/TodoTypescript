@@ -29,10 +29,14 @@ type BoxProps = FC &
 
 const common = [space, flexbox, border, color, position, layout, size];
 
-export const Box = styled.Text<BoxProps>`
+export const Box = styled.View<BoxProps>`
   ${common}
 `;
 
 export const Touchable = styled.TouchableOpacity<BoxProps>`
+  ${common}
+`;
+
+export const Text = styled.Text<BoxProps>`
   ${common}
 `;
