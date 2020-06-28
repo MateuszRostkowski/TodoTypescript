@@ -41,9 +41,7 @@ export const TodoSettingsScreen: FC = () => {
             {isPersonOwner ? (
               <Text>You are owner of this list</Text>
             ) : (
-              <Text>
-                Email of wwner of that list is {todoList?.owner.email}
-              </Text>
+              <Text>Email owner of that list is {todoList?.owner.email}</Text>
             )}
           </Box>
           {isPersonOwner && (
@@ -63,25 +61,25 @@ export const TodoSettingsScreen: FC = () => {
             </Box>
           )}
           {todoList?.people.length === 0 ? (
-            <Text>
+            <Text style={styles.textCenter} p={20}>
               There are no people invited to this todo. If you are owner of this
               todo do it now!
             </Text>
           ) : (
             <>
-              <Text>People in this list</Text>
+              <Text pl={10}>People in this list</Text>
               {todoList?.people.map((person) => (
                 <ListItem
                   key={person.email}
                   title={person.email}
-                  iconName={isPersonOwner && 'md-trash'}
+                  iconName={isPersonOwner ? 'md-trash' : undefined}
                   onIconPress={() => alert(person.email)}
                 />
               ))}
             </>
           )}
         </View>
-        {isPersonOwner && (
+        {isPersonOwner ? (
           <Button
             type="tertiary"
             title="Delete list"
@@ -89,6 +87,8 @@ export const TodoSettingsScreen: FC = () => {
               alert(personEmail);
             }}
           />
+        ) : (
+          <Box />
         )}
       </ScrollView>
     </SafeAreaView>
@@ -104,5 +104,8 @@ const styles = StyleSheet.create({
   },
   container: {
     width,
+  },
+  textCenter: {
+    textAlign: 'center',
   },
 });
