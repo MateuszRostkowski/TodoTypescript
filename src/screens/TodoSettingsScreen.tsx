@@ -1,9 +1,18 @@
 import React, { FC, useState } from 'react';
-import { ScrollView, Text, View, StyleSheet, SafeAreaView } from 'react-native';
+import {
+  ScrollView,
+  View,
+  StyleSheet,
+  SafeAreaView,
+  Dimensions,
+} from 'react-native';
 import styled from 'styled-components/native';
 
 import { useTodos, useCurrentTodoList, useTodoLists } from '../hooks';
-import { ListItem, Input, Button, Box } from '../components';
+import { ListItem, Input, Button, Box, Text } from '../components';
+import { getCurrentUser } from '../services';
+
+const width = Dimensions.get('screen').width;
 
 const StyledInput = styled(Input)`
   width: 300px;
@@ -11,26 +20,53 @@ const StyledInput = styled(Input)`
 
 export const TodoSettingsScreen: FC = () => {
   const [personEmail, setPersonEmail] = useState('');
+  const currentUser = getCurrentUser();
   const { currentTodoListId } = useTodos();
   const { addPersonToTodoList } = useTodoLists();
   const todoList = useCurrentTodoList(currentTodoListId);
+  const isPersonOwner = todoList?.owner.email === currentUser?.email;
 
   const handleAddPersonToTodoList = () => {
-    addPersonToTodoList(currentTodoListId, personEmail);
+    if (personEmail !== '') {
+      addPersonToTodoList(currentTodoListId, personEmail);
+    }
+    setPersonEmail('');
   };
   return (
     <SafeAreaView style={styles.scrollContainer}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Box />
         <View style={styles.container}>
-          <Text>Add new person to list</Text>
-          <StyledInput
-            value={personEmail}
-            onChangeText={setPersonEmail}
-            placeholder="Email address"
-          />
+          <Box my="16px" alignItems="center">
+            {isPersonOwner ? (
+              <Text>You are owner of this list</Text>
+            ) : (
+              <Text>
+                Email of wwner of that list is {todoList?.owner.email}
+              </Text>
+            )}
+          </Box>
+          {isPersonOwner && (
+            <Box my="16px" width="100%" alignItems="center">
+              <Text>Add new person to list</Text>
+              <StyledInput
+                value={personEmail}
+                onChangeText={setPersonEmail}
+                placeholder="Email address"
+              />
+              <Box mt={10} />
+              <Button
+                type="secondary"
+                title="Add person"
+                onPress={handleAddPersonToTodoList}
+              />
+            </Box>
+          )}
           {todoList?.people.length === 0 ? (
-            <Text>You did'nt invite any people to this list. Do it now!</Text>
+            <Text>
+              There are no people invited to this todo. If you are owner of this
+              todo do it now!
+            </Text>
           ) : (
             <>
               <Text>People in this list</Text>
@@ -38,20 +74,14 @@ export const TodoSettingsScreen: FC = () => {
                 <ListItem
                   key={person.email}
                   title={person.email}
-                  iconName="md-trash"
+                  iconName={isPersonOwner && 'md-trash'}
                   onIconPress={() => alert(person.email)}
                 />
               ))}
             </>
           )}
         </View>
-        <View>
-          <Button
-            type="primary"
-            title="Add person"
-            onPress={handleAddPersonToTodoList}
-          />
-          <Box />
+        {isPersonOwner && (
           <Button
             type="tertiary"
             title="Delete list"
@@ -59,8 +89,7 @@ export const TodoSettingsScreen: FC = () => {
               alert(personEmail);
             }}
           />
-        </View>
-        <Box />
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -74,6 +103,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   container: {
-    alignItems: 'center',
+    width,
   },
 });
