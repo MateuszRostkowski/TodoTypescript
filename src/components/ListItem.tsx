@@ -1,12 +1,8 @@
 import React, { FC } from 'react';
-import {
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  GestureResponderEvent,
-} from 'react-native';
+import { TouchableOpacity, Text, GestureResponderEvent } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Touchable } from './_atoms';
 
 interface ListItemProps {
   title: string;
@@ -25,8 +21,11 @@ export const ListItem: FC<ListItemProps> = ({
   onPress = undefined,
 }) => {
   return (
-    <TouchableOpacity
-      style={styles.listItem}
+    <Touchable
+      p={10}
+      bg="white"
+      flexDirection="row"
+      justifyContent="space-between"
       onPress={onPress}
       disabled={!onPress}>
       <Text>{title}</Text>
@@ -38,15 +37,6 @@ export const ListItem: FC<ListItemProps> = ({
           <Ionicons name={iconName} size={20} />
         </TouchableOpacity>
       )}
-    </TouchableOpacity>
+    </Touchable>
   );
 };
-
-const styles = StyleSheet.create({
-  listItem: {
-    padding: 10,
-    backgroundColor: 'white',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-});
