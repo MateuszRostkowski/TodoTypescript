@@ -13,8 +13,9 @@ import { useTitle, useTodos, useTodoLists } from '../hooks';
 export const TodoScreen = ({ navigation }) => {
   const { currentTodoListId } = useTodos();
   const { userTodoLists } = useTodoLists();
-  const { name } =
-    userTodoLists.find((list) => list.id === currentTodoListId) || 'Todos';
+  const { name } = userTodoLists.find(
+    (list) => list.id === currentTodoListId,
+  ) || { name: 'Todos' };
   useTitle(name);
 
   useLayoutEffect(() => {
