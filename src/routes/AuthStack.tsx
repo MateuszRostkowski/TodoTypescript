@@ -5,7 +5,7 @@ import { Input, Button, KeyboardAwareScrollView } from '../components';
 import { signIn, registerUser } from '../services';
 
 export const Auth = () => {
-  const [login, setLogin] = useState('');
+  const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [mode, setMode] = useState<'Login' | 'Register'>('Login');
   const [loading, setLoading] = useState(false);
@@ -18,9 +18,9 @@ export const Auth = () => {
     setLoading(true);
     try {
       if (mode === 'Login') {
-        await signIn(login, password);
+        await signIn(email, password);
       } else {
-        await registerUser(login, password, name);
+        await registerUser(email, password, name);
       }
       // eslint-disable-next-line no-shadow
     } catch (error) {
@@ -39,7 +39,7 @@ export const Auth = () => {
           {mode === 'Register' && (
             <Input placeholder="name" value={name} onChangeText={setName} />
           )}
-          <Input placeholder="login" value={login} onChangeText={setLogin} />
+          <Input placeholder="email" value={email} onChangeText={setEmail} />
           <Input
             secureTextEntry
             placeholder="password"
