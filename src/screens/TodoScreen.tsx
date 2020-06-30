@@ -40,7 +40,7 @@ export const TodoScreen = ({ navigation }) => {
   return (
     <SafeAreaView>
       <KeyboardAvoidingView
-        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={90}>
         <View style={styles.container}>
           <TodosList />
