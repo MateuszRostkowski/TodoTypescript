@@ -1,5 +1,4 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth';
 import { StyleSheet, View } from 'react-native';
 
 import { useTodos } from '../hooks';
