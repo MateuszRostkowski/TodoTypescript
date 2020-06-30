@@ -35,7 +35,7 @@ export const TodoScreen = ({ navigation }) => {
           </Touchable>
         ) : null,
     });
-  }, [navigation]);
+  }, [navigation, currentTodoListId, isPersonOwner]);
 
   return (
     <SafeAreaView>
