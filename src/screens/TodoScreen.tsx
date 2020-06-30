@@ -8,11 +8,15 @@ import {
   Text,
 } from 'react-native';
 import { TodoInput, TodosList, Controlls, Touchable } from '../components';
-import { useTitle, useTodos, useTodoLists } from '../hooks';
+import { useTitle, useTodos, useTodoLists, useCurrentTodoList } from '../hooks';
+import { getCurrentUser } from '../services';
 
 export const TodoScreen = ({ navigation }) => {
   const { currentTodoListId } = useTodos();
   const { userTodoLists } = useTodoLists();
+  const currentUser = getCurrentUser();
+  const todoList = useCurrentTodoList(currentTodoListId);
+  const isPersonOwner = todoList?.owner.email === currentUser?.email;
   const { name } = userTodoLists.find(
     (list) => list.id === currentTodoListId,
   ) || { name: 'Todos' };
@@ -25,7 +29,9 @@ export const TodoScreen = ({ navigation }) => {
           <Touchable
             m="15px"
             onPress={() => navigation.navigate('TodoSettings')}>
-            <Text style={styles.todoListEditHeader}>Edit</Text>
+            <Text style={styles.todoListEditHeader}>
+              {isPersonOwner ? 'Edit' : 'Details'}
+            </Text>
           </Touchable>
         ) : null,
     });
