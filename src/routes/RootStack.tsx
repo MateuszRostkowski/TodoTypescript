@@ -9,6 +9,7 @@ import {
   SettingsScreen,
   TodoSettingsScreen,
 } from '../screens';
+import { SafeAreaView, StyleSheet } from 'react-native';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -38,10 +39,22 @@ function Tabs() {
 
 export function Root() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={Tabs} />
-      <Stack.Screen name="Todos" component={TodoScreen} />
-      <Stack.Screen name="TodoSettings" component={TodoSettingsScreen} />
-    </Stack.Navigator>
+    <SafeAreaView style={styles.background}>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={Tabs}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Todos" component={TodoScreen} />
+        <Stack.Screen name="TodoSettings" component={TodoSettingsScreen} />
+      </Stack.Navigator>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+  },
+});

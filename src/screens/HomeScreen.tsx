@@ -2,11 +2,11 @@ import React, { FC } from 'react';
 import { ScrollView } from 'react-native';
 
 import { Box, TodoTile, CreateTodosListTile } from '../components';
-import { useTodoLists } from '../hooks';
+import { useTodoLists, useTitle } from '../hooks';
 
 export const HomeScreen: FC = () => {
   const { userTodoLists } = useTodoLists();
-
+  useTitle('Home');
   return (
     <ScrollView>
       <Box />
