@@ -4,8 +4,8 @@ import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 
 import { Button, Input, Box } from './index';
-import { useTodos } from '../hooks';
-import { createTodoList, getCurrentUser } from '../services';
+import { useTodos, useAuth } from '../hooks';
+import { createTodoList } from '../services';
 
 const margin = 16;
 const width = Dimensions.get('window').width - margin * 2;
@@ -55,7 +55,9 @@ interface TodoTile {
 
 export const CreateTodosListTile = () => {
   const [name, setName] = useState('');
-  const currentUser = getCurrentUser();
+  const { user } = useAuth();
+
+  const userEmail = user?.email ? user?.email : 'Cannot find user email';
 
   const handleCreateList = () => {
     setName('');
@@ -63,7 +65,7 @@ export const CreateTodosListTile = () => {
       name,
       'Attention',
       'You can change description and details from todo settings. You can also add people to your list',
-      currentUser?.email,
+      userEmail,
     );
   };
   return (

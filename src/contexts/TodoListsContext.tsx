@@ -3,7 +3,7 @@ import firestore from '@react-native-firebase/firestore';
 
 const todoListsRef = firestore().collection('TodosLists');
 
-import { getCurrentUser } from '../services';
+import { useAuth } from '../hooks';
 
 interface Person {
   email: string;
@@ -36,7 +36,7 @@ interface Props {
 
 export function TodoListsProvider(props: Props) {
   const [todoLists, setTodoLists] = useState<TodoListItem[]>([]);
-  const currentUser = getCurrentUser();
+  const { user } = useAuth();
 
   useEffect(() => {
     const subscription = todoListsRef.onSnapshot((querySnapshot) => {
@@ -57,8 +57,8 @@ export function TodoListsProvider(props: Props) {
 
   const userTodoLists = todoLists.filter(
     (todoList) =>
-      todoList.people.some((person) => person.email === currentUser?.email) ||
-      todoList.owner.email === currentUser?.email,
+      todoList.people.some((person) => person.email === user?.email) ||
+      todoList.owner.email === user?.email,
   );
 
   const addPersonToTodoList = (listId: string, email: string) => {

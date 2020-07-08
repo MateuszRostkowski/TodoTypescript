@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { Button, Input, Box, KeyboardAwareScrollView } from '../components';
-import { updateUserName, getCurrentUserName, logout } from '../services';
+import { logout } from '../services';
+import { useAuth } from '../hooks';
 
 export const SettingsScreen = () => {
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
-  const user = getCurrentUserName();
+  const { user, updateUserName } = useAuth();
 
   const submit = async () => {
     setLoading(true);
@@ -15,7 +16,9 @@ export const SettingsScreen = () => {
   };
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-      <Text>Hello {user} you can change your name if you want</Text>
+      <Text>
+        Hello {user?.displayName} you can change your name if you want
+      </Text>
       <Box mt="4px" />
       <Input placeholder="name" value={name} onChangeText={setName} />
       <Box mt="4px" />

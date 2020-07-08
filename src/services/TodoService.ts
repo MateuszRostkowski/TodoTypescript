@@ -1,5 +1,4 @@
 import firestore from '@react-native-firebase/firestore';
-import { getCurrentUser } from './AuthService';
 
 const todoListsRef = firestore().collection('TodosLists');
 
@@ -7,13 +6,13 @@ export const createTodoList = async (
   name: string,
   description: string,
   details: string,
+  userEmail: string,
 ) => {
-  const currenUser = getCurrentUser();
   await todoListsRef.add({
     name,
     description,
     details,
-    owner: { email: currenUser?.email },
+    owner: { email: userEmail },
     people: [],
   });
 };

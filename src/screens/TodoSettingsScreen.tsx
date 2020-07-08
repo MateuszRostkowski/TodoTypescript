@@ -8,9 +8,8 @@ import {
 } from 'react-native';
 import styled from 'styled-components/native';
 
-import { useTodos, useCurrentTodoList, useTodoLists } from '../hooks';
+import { useTodos, useCurrentTodoList, useTodoLists, useAuth } from '../hooks';
 import { ListItem, Input, Button, Box, Text } from '../components';
-import { getCurrentUser } from '../services';
 
 const width = Dimensions.get('screen').width;
 
@@ -20,11 +19,11 @@ const StyledInput = styled(Input)`
 
 export const TodoSettingsScreen: FC = () => {
   const [personEmail, setPersonEmail] = useState('');
-  const currentUser = getCurrentUser();
+  const { user } = useAuth();
   const { currentTodoListId } = useTodos();
   const { addPersonToTodoList, removePersonFromTodoList } = useTodoLists();
   const todoList = useCurrentTodoList(currentTodoListId);
-  const isPersonOwner = todoList?.owner.email === currentUser?.email;
+  const isPersonOwner = todoList?.owner.email === user?.email;
 
   const handleAddPersonToTodoList = () => {
     if (personEmail !== '') {
