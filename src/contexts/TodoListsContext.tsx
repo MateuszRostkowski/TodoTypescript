@@ -1,5 +1,6 @@
 import React, { createContext, ReactNode, useState, useEffect } from 'react';
 import firestore from '@react-native-firebase/firestore';
+import { showMessage } from 'react-native-flash-message';
 
 const todoListsRef = firestore().collection('TodosLists');
 
@@ -62,19 +63,46 @@ export function TodoListsProvider(props: Props) {
   );
 
   const addPersonToTodoList = (listId: string, email: string) => {
-    const todoList = todoLists.find((list) => list.id === listId);
-    const newPeopleInList = [...todoList?.people, { email }];
+    try {
+      const todoList = todoLists.find((list) => list.id === listId);
+      const newPeopleInList = [...todoList?.people, { email }];
 
-    todoListsRef.doc(listId).update({ people: newPeopleInList });
+      todoListsRef.doc(listId).update({ people: newPeopleInList });
+      showMessage({
+        message: `${email} user email added to list`,
+        icon: 'success',
+        type: 'success',
+      });
+    } catch (err) {
+      showMessage({
+        message: 'Error while adding user to list',
+        icon: 'danger',
+        type: 'danger',
+      });
+    }
   };
 
   const removePersonFromTodoList = (listId: string, email: string) => {
-    const todoList = todoLists.find((list) => list.id === listId);
-    const newPeopleInList = todoList?.people.filter(
-      (person) => person.email !== email,
-    );
+    try {
+      const todoList = todoLists.find((list) => list.id === listId);
+      const newPeopleInList = todoList?.people.filter(
+        (person) => person.email !== email,
+      );
 
-    todoListsRef.doc(listId).update({ people: newPeopleInList });
+      todoListsRef.doc(listId).update({ people: newPeopleInList });
+
+      showMessage({
+        message: `${email} user email removed from list`,
+        icon: 'success',
+        type: 'success',
+      });
+    } catch (err) {
+      showMessage({
+        message: 'Error while removing user to list',
+        icon: 'danger',
+        type: 'danger',
+      });
+    }
   };
 
   return (

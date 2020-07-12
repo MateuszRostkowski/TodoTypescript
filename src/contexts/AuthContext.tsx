@@ -1,5 +1,6 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { showMessage } from 'react-native-flash-message';
 
 interface AuthContext {
   user: FirebaseAuthTypes.User | null;
@@ -28,9 +29,22 @@ export function AuthProvider(props: Props) {
   }
 
   const updateUserName = async (displayName: string) => {
-    await auth().currentUser?.updateProfile({ displayName });
-    const newUser = await auth().currentUser;
-    setUser(newUser);
+    try {
+      await auth().currentUser?.updateProfile({ displayName });
+      const newUser = await auth().currentUser;
+      setUser(newUser);
+      showMessage({
+        message: 'User name updated',
+        icon: 'success',
+        type: 'success',
+      });
+    } catch (err) {
+      showMessage({
+        message: "Can't update user name",
+        icon: 'danger',
+        type: 'danger',
+      });
+    }
   };
 
   return (
