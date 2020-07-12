@@ -1,6 +1,7 @@
 import React, { createContext, ReactNode, useState, useEffect } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { showMessage } from 'react-native-flash-message';
+import { deleteTodoList } from '../services';
 
 const todoListsRef = firestore().collection('TodosLists');
 
@@ -23,12 +24,14 @@ interface TodoListsContext {
   userTodoLists: TodoListItem[];
   addPersonToTodoList: (listId: string, email: string) => void;
   removePersonFromTodoList: (listId: string, email: string) => void;
+  deleteList: (listId: string) => void;
 }
 
 export const TodoListsContext = createContext<TodoListsContext>({
   userTodoLists: [],
   addPersonToTodoList: () => {},
   removePersonFromTodoList: () => {},
+  deleteList: () => {},
 });
 
 interface Props {
@@ -82,14 +85,14 @@ export function TodoListsProvider(props: Props) {
     }
   };
 
-  const removePersonFromTodoList = (listId: string, email: string) => {
+  const removePersonFromTodoList = async (listId: string, email: string) => {
     try {
       const todoList = todoLists.find((list) => list.id === listId);
       const newPeopleInList = todoList?.people.filter(
         (person) => person.email !== email,
       );
 
-      todoListsRef.doc(listId).update({ people: newPeopleInList });
+      await todoListsRef.doc(listId).update({ people: newPeopleInList });
 
       showMessage({
         message: `${email} user email removed from list`,
@@ -105,9 +108,31 @@ export function TodoListsProvider(props: Props) {
     }
   };
 
+  const deleteList = async (listId: string) => {
+    try {
+      await deleteTodoList(listId);
+      showMessage({
+        message: 'Successfully deleted your list',
+        icon: 'success',
+        type: 'success',
+      });
+    } catch (err) {
+      showMessage({
+        message: 'Error while deleting your list',
+        icon: 'danger',
+        type: 'danger',
+      });
+    }
+  };
+
   return (
     <TodoListsContext.Provider
-      value={{ userTodoLists, addPersonToTodoList, removePersonFromTodoList }}>
+      value={{
+        userTodoLists,
+        addPersonToTodoList,
+        removePersonFromTodoList,
+        deleteList,
+      }}>
       {props.children}
     </TodoListsContext.Provider>
   );

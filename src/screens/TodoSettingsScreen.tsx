@@ -10,6 +10,7 @@ import styled from 'styled-components/native';
 
 import { useTodos, useCurrentTodoList, useTodoLists, useAuth } from '../hooks';
 import { ListItem, Input, Button, Box, Text } from '../components';
+import { useNavigation } from '@react-navigation/native';
 
 const width = Dimensions.get('screen').width;
 
@@ -21,7 +22,12 @@ export const TodoSettingsScreen: FC = () => {
   const [personEmail, setPersonEmail] = useState('');
   const { user } = useAuth();
   const { currentTodoListId } = useTodos();
-  const { addPersonToTodoList, removePersonFromTodoList } = useTodoLists();
+  const { navigate } = useNavigation();
+  const {
+    addPersonToTodoList,
+    removePersonFromTodoList,
+    deleteList,
+  } = useTodoLists();
   const todoList = useCurrentTodoList(currentTodoListId);
   const isPersonOwner = todoList?.owner.email === user?.email;
 
@@ -31,6 +37,12 @@ export const TodoSettingsScreen: FC = () => {
     }
     setPersonEmail('');
   };
+
+  const handleDeleteList = async () => {
+    await deleteList(currentTodoListId);
+    navigate('Home');
+  };
+
   return (
     <SafeAreaView style={styles.scrollContainer}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -84,9 +96,7 @@ export const TodoSettingsScreen: FC = () => {
           <Button
             type="tertiary"
             title="Delete list"
-            onPress={() => {
-              alert(personEmail);
-            }}
+            onPress={handleDeleteList}
           />
         ) : (
           <Box />
