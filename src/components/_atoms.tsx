@@ -14,11 +14,17 @@ import {
   PositionProps,
   layout,
   LayoutProps,
+  AlignItemsProps,
+  justifyContent,
+  width,
+  WidthProps,
   size,
   SizeProps,
 } from 'styled-system';
 
 type BoxProps = FC &
+  WidthProps &
+  AlignItemsProps &
   ColorProps &
   SpaceProps &
   FlexProps &
@@ -27,7 +33,17 @@ type BoxProps = FC &
   LayoutProps &
   SizeProps;
 
-const common = [space, flexbox, border, color, position, layout, size];
+const common = [
+  space,
+  flexbox,
+  border,
+  color,
+  position,
+  layout,
+  size,
+  width,
+  justifyContent,
+];
 
 export const Box = styled.View<BoxProps>`
   ${common}
