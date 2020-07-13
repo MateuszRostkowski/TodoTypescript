@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Button, Input, Box } from './index';
 import { useTodos, useAuth } from '../hooks';
 import { createTodoList } from '../services';
+import { TodoListItem } from '../Interfaces';
 
 const margin = 16;
 const width = Dimensions.get('window').width - margin * 2;
@@ -46,13 +47,6 @@ const SeparatorWithLine = () => (
   </>
 );
 
-interface TodoTile {
-  name: string;
-  id: string;
-  description: string;
-  details: string;
-}
-
 export const CreateTodosListTile = () => {
   const [name, setName] = useState('');
   const { user } = useAuth();
@@ -83,7 +77,13 @@ export const CreateTodosListTile = () => {
   );
 };
 
-export const TodoTile: FC<TodoTile> = ({ name, id, description, details }) => {
+export const TodoTile: FC<TodoListItem> = ({
+  name,
+  id,
+  description,
+  details,
+  owner,
+}) => {
   const { setCurrentTodoListId } = useTodos();
   const { navigate } = useNavigation();
 
@@ -94,7 +94,14 @@ export const TodoTile: FC<TodoTile> = ({ name, id, description, details }) => {
 
   return (
     <Tile>
-      <Text style={styles.heading}>{name}</Text>
+      <Box flexDirection="row">
+        <Text style={[styles.heading, styles.halfWidth]}>{name}</Text>
+        {owner ? (
+          <Text style={[styles.halfWidth, styles.alignRight]}>
+            {owner.email}
+          </Text>
+        ) : null}
+      </Box>
       <SeparatorWithLine />
       <Text style={styles.todosHeading}>{description}</Text>
       <Text>{details}</Text>
@@ -105,6 +112,12 @@ export const TodoTile: FC<TodoTile> = ({ name, id, description, details }) => {
 };
 
 const styles = StyleSheet.create({
+  halfWidth: {
+    width: '50%',
+  },
+  alignRight: {
+    textAlign: 'right',
+  },
   todosHeading: {
     fontWeight: '600',
   },
