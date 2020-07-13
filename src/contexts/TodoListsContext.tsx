@@ -2,23 +2,11 @@ import React, { createContext, ReactNode, useState, useEffect } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { showMessage } from 'react-native-flash-message';
 import { deleteTodoList } from '../services';
+import { TodoListItem } from '../Interfaces';
 
 const todoListsRef = firestore().collection('TodosLists');
 
 import { useAuth } from '../hooks';
-
-interface Person {
-  email: string;
-}
-
-interface TodoListItem {
-  id: string;
-  name: string;
-  description: string;
-  details: string;
-  owner: Person;
-  people: Person[];
-}
 
 interface TodoListsContext {
   userTodoLists: TodoListItem[];

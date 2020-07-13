@@ -20,3 +20,16 @@ export type RootStackParamList = {
   Settings: undefined;
   Todos: undefined;
 };
+
+interface Person {
+  email: string;
+}
+
+export interface TodoListItem {
+  id: string;
+  name: string;
+  description: string;
+  details: string;
+  owner: Person;
+  people: Person[];
+}
