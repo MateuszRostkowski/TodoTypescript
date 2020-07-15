@@ -21,6 +21,19 @@ export const deleteTodoList = async (id: string) => {
   await todoListsRef.doc(id).delete();
 };
 
-export const updateTodoList = async (id: string, name: string) => {
-  await todoListsRef.doc(id).update({ name });
+export const updateTodoList = async (
+  id: string,
+  name?: string,
+  description?: string,
+  details?: string,
+) => {
+  const newDescription = description ? { description } : {};
+  const newName = name ? { name } : {};
+  const newDetails = details ? { details } : {};
+
+  await todoListsRef.doc(id).update({
+    ...newDescription,
+    ...newName,
+    ...newDetails,
+  });
 };
