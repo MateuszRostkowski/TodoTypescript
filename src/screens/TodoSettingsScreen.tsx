@@ -7,16 +7,67 @@ import {
   Dimensions,
 } from 'react-native';
 import styled from 'styled-components/native';
+import { TodoListItem } from '../Interfaces';
+import { showMessage } from 'react-native-flash-message';
 
 import { useTodos, useCurrentTodoList, useTodoLists, useAuth } from '../hooks';
 import { ListItem, Input, Button, Box, Text } from '../components';
 import { useNavigation } from '@react-navigation/native';
+import { updateTodoList } from '../services';
 
 const width = Dimensions.get('screen').width;
 
 const StyledInput = styled(Input)`
   width: 300px;
 `;
+
+const StyledTextArea = styled(Input)`
+  width: 300px;
+  height: 100px;
+  border-radius: 20px;
+  padding: 10px;
+`;
+
+const EditTodoList: FC<{ todoList: TodoListItem }> = ({ todoList }) => {
+  const [name, setName] = useState(todoList.name);
+  const [description, setDescription] = useState(todoList.description);
+  const [details, setDetails] = useState(todoList.details);
+  const submit = async () => {
+    await updateTodoList(todoList.id, name, description, details);
+    showMessage({
+      message: 'Details updated successfully',
+      icon: 'success',
+      type: 'success',
+    });
+  };
+  return (
+    <Box width="100%" mt="16px" alignItems="center">
+      <Box width="300px">
+        <Text>Name</Text>
+        <StyledInput value={name} onChangeText={setName} placeholder="Name" />
+      </Box>
+      <Box width="300px">
+        <Text>description</Text>
+        <StyledInput
+          value={description}
+          onChangeText={setDescription}
+          placeholder="Description"
+        />
+      </Box>
+      <Box width="300px">
+        <Text>details</Text>
+        <StyledTextArea
+          value={details}
+          onChangeText={setDetails}
+          placeholder="Details"
+          multiline={true}
+          numberOfLines={4}
+        />
+      </Box>
+      <Button title="Save details" onPress={submit} />
+    </Box>
+  );
+};
 
 export const TodoSettingsScreen: FC = () => {
   const [personEmail, setPersonEmail] = useState('');
@@ -46,17 +97,21 @@ export const TodoSettingsScreen: FC = () => {
   return (
     <SafeAreaView style={styles.scrollContainer}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Box />
+        {isPersonOwner && todoList ? (
+          <EditTodoList todoList={todoList} />
+        ) : (
+          <Box />
+        )}
         <View style={styles.container}>
-          <Box my="16px" alignItems="center">
-            {isPersonOwner ? (
-              <Text>You are owner of this list</Text>
-            ) : (
+          {!isPersonOwner && (
+            <Box my="16px" alignItems="center">
               <Text>Email owner of that list is {todoList?.owner.email}</Text>
-            )}
-          </Box>
+            </Box>
+          )}
           {isPersonOwner && (
             <Box my="16px" width="100%" alignItems="center">
+              <Text>You are owner of this list</Text>
+              <Box mt="16px" />
               <Text>Add new person to list</Text>
               <StyledInput
                 value={personEmail}
