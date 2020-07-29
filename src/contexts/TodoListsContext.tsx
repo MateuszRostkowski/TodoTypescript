@@ -49,8 +49,9 @@ export function TodoListsProvider(props: Props) {
 
   const userTodoLists = todoLists.filter(
     (todoList) =>
-      todoList.people.some((person) => person.email === user?.email) ||
-      todoList.owner.email === user?.email,
+      todoList.people.some(
+        (person) => person.email.toLowerCase() === user?.email?.toLowerCase(),
+      ) || todoList.owner.email === user?.email,
   );
 
   const addPersonToTodoList = (listId: string, email: string) => {
