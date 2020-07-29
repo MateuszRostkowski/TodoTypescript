@@ -148,11 +148,13 @@ export const TodoSettingsScreen: FC = () => {
           )}
         </View>
         {isPersonOwner ? (
-          <Button
-            type="tertiary"
-            title="Delete list"
-            onPress={handleDeleteList}
-          />
+          <Box my="16px">
+            <Button
+              type="tertiary"
+              title="Delete list"
+              onPress={handleDeleteList}
+            />
+          </Box>
         ) : (
           <Box />
         )}
