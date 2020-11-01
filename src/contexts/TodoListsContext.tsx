@@ -33,7 +33,7 @@ export function TodoListsProvider(props: Props) {
   useEffect(() => {
     const subscription = todoListsRef.onSnapshot((querySnapshot) => {
       const list: any = [];
-      querySnapshot.forEach((doc) => {
+      querySnapshot?.forEach((doc) => {
         const data = doc.data();
         list.push({
           id: doc.id,
@@ -44,7 +44,6 @@ export function TodoListsProvider(props: Props) {
       setTodoLists(list);
     });
     return () => subscription();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const userTodoLists = todoLists.filter(

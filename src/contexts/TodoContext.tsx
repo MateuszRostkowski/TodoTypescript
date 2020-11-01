@@ -59,7 +59,7 @@ export function TodoProvider(props: Props) {
   useEffect(() => {
     const subscription = todosRef.onSnapshot((querySnapshot) => {
       const list: Todo[] = [];
-      querySnapshot.forEach((doc) => {
+      querySnapshot?.forEach((doc) => {
         const { name, date, done, user: userName } = doc.data();
         list.push({
           id: doc.id,
@@ -81,7 +81,7 @@ export function TodoProvider(props: Props) {
 
   const todosToDisplay = todos
     .sort((a, b) => {
-      return b.date.toDate() - a.date.toDate();
+      return b?.date?.toDate() - a?.date?.toDate();
     })
     .filter((todo) => {
       if (activeFilter === 'done') {
