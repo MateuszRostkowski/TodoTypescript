@@ -10,6 +10,7 @@ import {
 interface ButtonProps {
   type?: 'primary' | 'secondary' | 'tertiary';
   title: string;
+  disabled?: boolean;
   loading?: boolean;
   onPress: (() => void) | ((event: GestureResponderEvent) => void) | undefined;
 }
@@ -17,17 +18,24 @@ interface ButtonProps {
 export const Button: FC<ButtonProps> = ({
   type = 'secondary',
   loading = false,
+  disabled = false,
   title,
   onPress,
 }) => {
   const primaryStyles = type === 'primary' ? [styles.primaryButton] : [];
   const tertiaryStyles = type === 'tertiary' ? [styles.tertiaryButton] : [];
   const primaryTextStyles = type === 'primary' ? [styles.primaryText] : [];
+  const disabledStyles = disabled ? [styles.disabledButton] : [];
   return (
     <TouchableOpacity
-      style={[styles.button, ...primaryStyles, ...tertiaryStyles]}
+      style={[
+        styles.button,
+        ...primaryStyles,
+        ...tertiaryStyles,
+        ...disabledStyles,
+      ]}
       onPress={onPress}
-      disabled={loading}>
+      disabled={disabled || loading}>
       {loading ? (
         <ActivityIndicator />
       ) : (
@@ -45,6 +53,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  disabledButton: {
+    backgroundColor: '#797979',
   },
   primaryButton: {
     backgroundColor: '#06f',
