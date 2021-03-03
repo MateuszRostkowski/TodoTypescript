@@ -4,6 +4,8 @@
 
 ![Preview](./src/assets/AppPreview.gif)
 
+### [Video](https://youtu.be/INKomMvLW_w)
+
 ## Test accounts:
 
 Email: mateusz21@example.com
