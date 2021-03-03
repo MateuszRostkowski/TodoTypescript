@@ -4,7 +4,7 @@
 
 ![Preview](./src/assets/AppPreview.gif)
 
-### [Video](https://youtu.be/INKomMvLW_w)
+### [Preview](https://youtu.be/INKomMvLW_w)
 
 ## Test accounts:
 
