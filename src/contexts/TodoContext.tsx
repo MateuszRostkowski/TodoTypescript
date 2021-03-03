@@ -57,21 +57,24 @@ export function TodoProvider(props: Props) {
   const { user } = useAuth();
 
   useEffect(() => {
-    const subscription = todosRef.onSnapshot((querySnapshot) => {
-      const list: Todo[] = [];
-      querySnapshot?.forEach((doc) => {
-        const { name, date, done, user: userName } = doc.data();
-        list.push({
-          id: doc.id,
-          user: userName,
-          name,
-          date,
-          done,
+    const subscription = todosRef.onSnapshot(
+      (querySnapshot) => {
+        const list: Todo[] = [];
+        querySnapshot?.forEach((doc) => {
+          const { name, date, done, user: userName } = doc.data();
+          list.push({
+            id: doc.id,
+            user: userName,
+            name,
+            date,
+            done,
+          });
         });
-      });
 
-      setTodos(list);
-    });
+        setTodos(list);
+      },
+      (error) => console.log('Error while connecting to snapshot', error),
+    );
     return () => subscription();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTodoListId]);
