@@ -72,7 +72,12 @@ export const CreateTodosListTile = () => {
         placeholder="Type new list name"
       />
       <SeparatorWithLine />
-      <Button type="primary" title="Create" onPress={handleCreateList} />
+      <Button
+        disabled={name === ''}
+        type="primary"
+        title="Create"
+        onPress={handleCreateList}
+      />
     </Tile>
   );
 };
